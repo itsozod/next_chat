@@ -1,0 +1,18 @@
+const SendIcon = () => {
+  return (
+    <svg
+      width="29"
+      height="23"
+      viewBox="0 0 29 23"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0 3L4.09893 10.4464L18.4452 5.4031L6.51007 14.8266L10.609 22.273L28.0817 0.0985999L0 3Z"
+        fill="#F8F8F8"
+      />
+    </svg>
+  );
+};
+
+export default SendIcon;
