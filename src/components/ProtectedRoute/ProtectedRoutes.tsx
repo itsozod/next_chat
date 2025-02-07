@@ -2,7 +2,7 @@ import Wrapper from "../wrapper/Wrapper";
 import { Navigate, Outlet } from "react-router-dom";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 
-const ProtectedRoute = () => {
+const ProtectedRoutes = () => {
   const { getToken } = tokenInstance;
   return getToken() ? (
     <Wrapper>
@@ -13,4 +13,4 @@ const ProtectedRoute = () => {
   );
 };
 
-export default ProtectedRoute;
+export default ProtectedRoutes;
