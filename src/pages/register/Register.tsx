@@ -1,7 +1,7 @@
 import EmailIcon from "../../assets/icons/EmailIcon";
 import PasswordIcon from "../../assets/icons/PasswordIcon";
 import UserIcon from "../../assets/icons/UserIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { toast } from "react-toastify";
@@ -12,17 +12,16 @@ import { Button } from "@heroui/button";
 
 type SignUpType = {
   username: string;
-  email: string;
+  fullname: string;
   password: string;
 };
 const Register = () => {
-  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
+    fullname: "",
     password: "",
   });
 
@@ -34,13 +33,13 @@ const Register = () => {
     try {
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(arg),
       });
-      const data = await res.json();
-      if (data?.token) {
-        navigate("/signin");
+
+      if (!res.ok) {
+        toast.error(res?.statusText);
       }
+      const data = await res.json();
       return data;
     } catch (e) {
       console.log(e);
@@ -48,17 +47,13 @@ const Register = () => {
   };
 
   const { isMutating, trigger: register } = useSWRMutation(
-    "https://d00f63aca8474f91.mokky.dev/register",
+    "http://5.253.62.94:8084/auth/sign-up",
     signUp
   );
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await register(formData);
-    if (res?.statusCode === 401) {
-      toast.error(res?.error);
-    }
-    return res;
+    await register(formData);
   };
   return (
     <>
@@ -97,14 +92,13 @@ const Register = () => {
                 <Input
                   startContent={<EmailIcon />}
                   isClearable={true}
-                  type="email"
-                  name="email"
+                  name="fullname"
                   onChange={handleChange}
-                  value={formData.email}
+                  value={formData.fullname}
                   classNames={{
                     inputWrapper: ["bg-[#292929]"],
                   }}
-                  placeholder="Enter Your Email"
+                  placeholder="Enter Your Fullname"
                 />
 
                 <Input
@@ -115,7 +109,7 @@ const Register = () => {
                   name="password"
                   value={formData.password}
                   placeholder="Enter Your password"
-                  type="password"
+                  type={isVisible ? "text" : "password"}
                   onChange={handleChange}
                   endContent={
                     <button

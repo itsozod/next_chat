@@ -7,8 +7,12 @@ import { marginHandler } from "../../utils/helpers/marginHandler";
 import { tokenParser } from "../../utils/helpers/tokenParser";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
+import useSWR from "swr";
 
 const Home = () => {
+  const { data } = useSWR("http://5.253.62.94:8084/user/me");
+  console.log("data", data);
+
   const lastMessage = useRef<HTMLDivElement>(null);
   const { id, username } = tokenParser();
   const { socket, messages, setMessages } = useSocket();

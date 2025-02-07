@@ -5,11 +5,10 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { ChangeEvent, useState } from "react";
 import UserIcon from "../../assets/icons/UserIcon";
-import { useToken } from "./store";
 import useSWRMutation from "swr/mutation";
-import { toast } from "react-toastify";
 import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
+import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 
 type FormData = {
   username: string;
@@ -24,12 +23,11 @@ const Login = () => {
     try {
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(arg),
       });
       const data = await res.json();
-      if (data?.token) {
-        setToken(data?.token);
+      if (data?.data?.access_token?.token) {
+        tokenInstance.setToken(data?.data?.access_token?.token);
         navigate("/");
       }
       return data;
@@ -38,11 +36,10 @@ const Login = () => {
     }
   };
   const { isMutating, trigger: login } = useSWRMutation(
-    "https://d00f63aca8474f91.mokky.dev/auth",
+    "http://5.253.62.94:8084/auth/sign-in",
     signIn
   );
 
-  const { setToken } = useToken();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -55,12 +52,7 @@ const Login = () => {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await login(formData);
-
-    if (res?.statusCode === 400) {
-      toast.error(res?.message?.[0]);
-    }
-    return res;
+    await login(formData);
   };
 
   return (
