@@ -1,9 +1,8 @@
 import { ReactNode, createContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { Socket } from "socket.io-client";
 
 interface SocketContextType {
-  socket: Socket | string;
+  socket: string;
   messages: Messages[];
   setMessages: React.Dispatch<React.SetStateAction<Messages[]>>;
 }
