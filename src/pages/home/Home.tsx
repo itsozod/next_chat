@@ -1,9 +1,6 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import useSocket from "../../hooks/useSocket";
 import SendIcon from "../../assets/icons/SendIcon";
-import { bgHandler } from "../../utils/helpers/bgHandler";
-import { marginHandler } from "../../utils/helpers/marginHandler";
 import { tokenParser } from "../../utils/helpers/tokenParser";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
@@ -14,54 +11,54 @@ const Home = () => {
   console.log("data", data);
 
   const lastMessage = useRef<HTMLDivElement>(null);
-  const { id, username } = tokenParser();
-  const { socket, messages, setMessages } = useSocket();
+  const { username } = tokenParser();
+  // const { socket, messages, setMessages } = useSocket();
 
   const [message, setMessage] = useState("");
 
-  const sendMessage = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (message?.trim() !== "") {
-      const messageObj = {
-        id: id,
-        message,
-        username,
-        messageId: Date.now(),
-      };
-      socket?.emit("send_message", messageObj);
-      setMessages((prev) => [...prev, messageObj]);
-      setMessage("");
-    }
-  };
+  // const sendMessage = (e: ChangeEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (message?.trim() !== "") {
+  //     const messageObj = {
+  //       id: id,
+  //       message,
+  //       username,
+  //       messageId: Date.now(),
+  //     };
+  //     socket?.emit("send_message", messageObj);
+  //     setMessages((prev) => [...prev, messageObj]);
+  //     setMessage("");
+  //   }
+  // };
 
-  const MessagesParser = useMemo(() => {
-    return messages?.map((mess) => {
-      return (
-        <div
-          key={mess?.messageId}
-          className={`${bgHandler(
-            mess,
-            Number(id)
-          )} p-3 m-1 rounded-md text-white ${marginHandler(mess, Number(id))}`}
-        >
-          {mess?.message}
-          <p className="text-[#7B7B7B]">{mess?.username}!</p>
-        </div>
-      );
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
+  // const MessagesParser = useMemo(() => {
+  //   return messages?.map((mess) => {
+  //     return (
+  //       <div
+  //         key={mess?.messageId}
+  //         className={`${bgHandler(
+  //           mess,
+  //           Number(id)
+  //         )} p-3 m-1 rounded-md text-white ${marginHandler(mess, Number(id))}`}
+  //       >
+  //         {mess?.message}
+  //         <p className="text-[#7B7B7B]">{mess?.username}!</p>
+  //       </div>
+  //     );
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [messages]);
 
-  const scrollToBottom = () => {
-    if (messages?.length) {
-      lastMessage.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // const scrollToBottom = () => {
+  //   if (messages?.length) {
+  //     lastMessage.current?.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
-  useEffect(() => {
-    scrollToBottom();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [messages]);
 
   return (
     <>
@@ -78,15 +75,15 @@ const Home = () => {
           Welcome {username}
         </h1>
         <div className="bg-[#202020] flex flex-col border border-red-500 h-[500px] overflow-auto w-[100%] max-w-[600px] gap-2">
-          {messages?.length === 0 && (
+          {/* {messages?.length === 0 && (
             <div className="bg-[red] p-3 text-white m-1 rounded-md">
               No messages yet!
             </div>
-          )}
-          {MessagesParser}
+          )} */}
+          {/* {MessagesParser} */}
           <div ref={lastMessage}></div>
         </div>
-        <form onSubmit={sendMessage} className="w-full max-w-[600px]">
+        <form className="w-full max-w-[600px]">
           <div className="flex gap-1 justify-between mt-2">
             <Input
               placeholder="Send a message"
