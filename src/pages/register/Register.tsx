@@ -8,11 +8,10 @@ import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { fetcher } from "@/providers/swr/fetcher";
+import { signUp } from "@/shared/api/auth/signup/signup";
 
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
-
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [formData, setFormData] = useState({
     username: "",
@@ -22,13 +21,6 @@ const Register = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const signUp = async (url: string, { arg = {} }) => {
-    await fetcher(url, {
-      method: "POST",
-      body: JSON.stringify(arg),
-    });
   };
 
   const { isMutating, trigger: register } = useSWRMutation(

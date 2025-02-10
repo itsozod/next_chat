@@ -12,11 +12,13 @@ const useInfiniteScroll = (
   const fetchNextPage = useCallback(
     (entries: any) => {
       const target = entries[0];
+      console.log("target", target);
+
       if (target.isIntersecting) {
         setSize(size + 1);
         if (target.target.parentElement) {
           target.target.parentElement.scrollBy({
-            top: 150,
+            top: 15,
             behavior: "smooth",
           });
         }

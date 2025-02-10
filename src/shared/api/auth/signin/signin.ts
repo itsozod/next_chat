@@ -1,0 +1,13 @@
+import { fetcher } from "@/providers/swr/fetcher";
+import * as I from "@/shared/types";
+
+export const signIn = async (
+  url: string,
+  { arg }: { arg: I.FormData }
+): Promise<I.LoginData> => {
+  const res = await fetcher(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  });
+  return res;
+};

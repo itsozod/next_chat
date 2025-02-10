@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import PasswordIcon from "../../assets/icons/PasswordIcon";
-
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -9,36 +8,20 @@ import useSWRMutation from "swr/mutation";
 import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
-import { fetcher } from "@/providers/swr/fetcher";
-
-type FormData = {
-  username: string;
-  password: string;
-};
-
+import { signIn } from "@/shared/api/auth/signin/signin";
 const Login = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
   const [isVisible, setIsVisible] = useState(false);
-
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const signIn = async (url: string, { arg }: { arg: FormData }) => {
-    const res = await fetcher(url, {
-      method: "POST",
-      body: JSON.stringify(arg),
-    });
-
-    return res;
-  };
+  const navigate = useNavigate();
   const {
     data,
     isMutating,
     trigger: login,
   } = useSWRMutation("http://5.253.62.94:8084/auth/sign-in", signIn);
-
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

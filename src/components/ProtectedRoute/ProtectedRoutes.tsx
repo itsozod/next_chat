@@ -1,4 +1,4 @@
-import Wrapper from "../wrapper/Wrapper";
+import Wrapper from "../Wrapper/Wrapper";
 import { Navigate, Outlet } from "react-router-dom";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 
