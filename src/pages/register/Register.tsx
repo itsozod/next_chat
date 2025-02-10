@@ -4,17 +4,12 @@ import UserIcon from "../../assets/icons/UserIcon";
 import { Link } from "react-router-dom";
 import { ChangeEvent, useState } from "react";
 import useSWRMutation from "swr/mutation";
-import { toast } from "react-toastify";
 import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
+import { fetcher } from "@/providers/swr/fetcher";
 
-type SignUpType = {
-  username: string;
-  fullname: string;
-  password: string;
-};
 const Register = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -29,21 +24,11 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const signUp = async (url: string, { arg }: { arg: SignUpType }) => {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(arg),
-      });
-
-      if (!res.ok) {
-        toast.error(res?.statusText);
-      }
-      const data = await res.json();
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
+  const signUp = async (url: string, { arg = {} }) => {
+    await fetcher(url, {
+      method: "POST",
+      body: JSON.stringify(arg),
+    });
   };
 
   const { isMutating, trigger: register } = useSWRMutation(

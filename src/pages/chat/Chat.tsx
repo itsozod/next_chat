@@ -1,11 +1,32 @@
-import { useNavigate } from "react-router-dom";
+import UserIcon from "@/assets/icons/UserIcon";
+import { Input } from "@heroui/input";
+import { useState } from "react";
+import useSWR from "swr";
 
 const Chat = () => {
-  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const { data: rooms } = useSWR(
+    searchValue
+      ? `http://5.253.62.94:8084/user/search?username=${searchValue}`
+      : null
+  );
+  console.log(rooms);
+
   return (
     <>
-      <div>Chat room</div>
-      <button onClick={() => navigate("/")}>To Home page</button>
+      <div className="p-2">
+        <Input
+          startContent={<UserIcon />}
+          isClearable
+          onClear={() => setSearchValue("")}
+          value={searchValue}
+          classNames={{
+            inputWrapper: ["bg-[#292929]"],
+          }}
+          placeholder="Enter username"
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+      </div>
     </>
   );
 };

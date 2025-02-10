@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { Messages, SocketContext } from "./SocketProvider";
-import { Socket } from "socket.io-client";
+// import { Socket } from "socket.io-client";
 
 interface UseSocketReturn {
-  socket: Socket;
+  // socket: Socket;
   messages: Messages[];
   setMessages: React.Dispatch<React.SetStateAction<Messages[]>>;
 }

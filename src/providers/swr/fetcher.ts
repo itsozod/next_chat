@@ -10,12 +10,12 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
     headers,
   });
 
-//   if (response.status === 401) {
-//     window.location.href = "/signin";
-//   }
+  if (response.status === 401) {
+    window.location.href = "/signin";
+  }
   if (!response.ok) {
     const errorResp = await response.json();
-    throw new Error(`${errorResp?.message || response.statusText}`);
+    throw new Error(`${errorResp.error || response.statusText}`);
   }
   return await response.json();
 };

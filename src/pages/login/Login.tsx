@@ -3,12 +3,13 @@ import PasswordIcon from "../../assets/icons/PasswordIcon";
 
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import UserIcon from "../../assets/icons/UserIcon";
 import useSWRMutation from "swr/mutation";
 import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
+import { fetcher } from "@/providers/swr/fetcher";
 
 type FormData = {
   username: string;
@@ -20,25 +21,18 @@ const Login = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const signIn = async (url: string, { arg }: { arg: FormData }) => {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(arg),
-      });
-      const data = await res.json();
-      if (data?.data?.access_token?.token) {
-        tokenInstance.setToken(data?.data?.access_token?.token);
-        navigate("/");
-      }
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
+    const res = await fetcher(url, {
+      method: "POST",
+      body: JSON.stringify(arg),
+    });
+
+    return res;
   };
-  const { isMutating, trigger: login } = useSWRMutation(
-    "http://5.253.62.94:8084/auth/sign-in",
-    signIn
-  );
+  const {
+    data,
+    isMutating,
+    trigger: login,
+  } = useSWRMutation("http://5.253.62.94:8084/auth/sign-in", signIn);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -54,6 +48,13 @@ const Login = () => {
     e.preventDefault();
     await login(formData);
   };
+
+  useEffect(() => {
+    if (data?.data?.access_token?.token) {
+      tokenInstance.setToken(data?.data?.access_token?.token);
+      navigate("/");
+    }
+  }, [data]);
 
   return (
     <>

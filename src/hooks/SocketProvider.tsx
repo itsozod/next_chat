@@ -1,9 +1,9 @@
 import { ReactNode, createContext, useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { io, Socket } from "socket.io-client";
+// import { Socket } from "socket.io-client";
 
 interface SocketContextType {
-  socket: Socket;
+  // socket: Socket;
   messages: Messages[];
   setMessages: React.Dispatch<React.SetStateAction<Messages[]>>;
 }
@@ -16,7 +16,7 @@ export interface Messages {
 }
 
 export const SocketContext = createContext<SocketContextType | null>(null);
-const socket = io("http://localhost:3002");
+// const socket = "";
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [messages, setMessages] = useState<Messages[]>([]);
@@ -52,7 +52,7 @@ const SocketProvider = ({ children }: { children: ReactNode }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [token]);
   return (
-    <SocketContext.Provider value={{ socket, messages, setMessages }}>
+    <SocketContext.Provider value={{ messages, setMessages }}>
       <ToastContainer />
       {children}
     </SocketContext.Provider>
