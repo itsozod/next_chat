@@ -32,8 +32,10 @@ const menuItems = [
 
 const Header = () => {
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
+  const { data: avatar } = useSWR("http://5.253.62.94:8084/user/avatar");
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log(avatar);
 
   return (
     <Navbar

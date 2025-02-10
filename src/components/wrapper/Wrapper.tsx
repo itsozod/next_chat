@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import Header from "../Header/Header";
+import Header from "../header/Header";
 
 const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="bg-[#01161e] h-[100vh] flex flex-col">
+    <div className="h-[100vh] flex flex-col">
       <Header />
-      <div>{children}</div>
+      <div className="bg-[#01161e] h-[100vh]">{children}</div>
     </div>
   );
 };

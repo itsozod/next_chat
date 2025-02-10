@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import useSWR from "swr";
 import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
-import { useSocketStore } from "@/shared/store/socket.store";
-import MessageInput from "@/components/MessageInput/MessageInput";
+import Loader from "@/shared/ui/loader/Loader";
 import useMessages from "@/shared/hooks/useMessages";
+import { useSocketStore } from "@/shared/store/socket.store";
+import ChatMessages from "@/components/Messages/ChatMessages";
+import MessageInput from "@/components/MessageInput/MessageInput";
 import ChatContainer from "@/components/ChatContainer/ChatContainer";
-import Messages from "@/components/Messages/Messages";
 
 const Home = () => {
-  const bottomRef = useRef<HTMLDivElement>(null);
   const { messages, setSocket, setMessages } = useSocketStore();
+  const bottomRef = useRef<HTMLDivElement>(null);
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
   const { roomsMessages, setSize, size, isValidating, isLastPage, isLoading } =
     useMessages();
@@ -61,9 +62,7 @@ const Home = () => {
 
   useEffect(() => {
     if (roomsMessages) {
-      const newMessages = roomsMessages?.flatMap(
-        (mess) => mess?.data?.messages
-      );
+      const newMessages = roomsMessages.flatMap((mess) => mess.data?.messages);
       setMessages((prevMessages) => {
         const messageIds = new Set(prevMessages.map((msg) => msg.id));
         const uniqueMessages = newMessages.filter(
@@ -74,38 +73,24 @@ const Home = () => {
     }
   }, [roomsMessages]);
 
-  const messageParser = useMemo(() => {
-    return messages
-      ?.slice()
-      .reverse()
-      .map((mess) => {
-        return <Messages id={data?.data?.id} message={mess} />;
-      });
-  }, [messages, data]);
-
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-[100vh]">
+        <Loader />;
+      </div>
+    );
 
   return (
     <>
-      <div className="flex justify-start p-2 gap-4 flex-col bg-[#01161e] items-center h-svh">
-        <h1
-          style={{
-            fontFamily: "Playwrite IE, cursive",
-            fontOpticalSizing: "auto",
-            fontWeight: "bolder",
-            fontStyle: "normal",
-          }}
-          className="text-center text-white text-2xl"
-        >
-          Welcome, {data?.data?.fullname}
-        </h1>
+      <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
         <ChatContainer>
-          {isValidating ? (
-            <div>Loading</div>
-          ) : (
-            <div ref={handleLoaderRef}></div>
+          <div ref={handleLoaderRef}></div>
+          {isValidating && (
+            <div className="flex justify-center items-center">
+              <Loader />
+            </div>
           )}
-          {messageParser}
+          <ChatMessages id={data?.data?.id} messages={messages} />
           <div ref={bottomRef}></div>
         </ChatContainer>
         <MessageInput scrollToBottom={scrollToBottom} />
