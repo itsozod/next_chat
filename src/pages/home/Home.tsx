@@ -7,13 +7,24 @@ import { useSocketStore } from "@/shared/store/socket.store";
 import ChatMessages from "@/components/Messages/ChatMessages";
 import MessageInput from "@/components/MessageInput/MessageInput";
 import ChatContainer from "@/components/ChatContainer/ChatContainer";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import { useSearchParams } from "react-router-dom";
+import { error } from "console";
 
 const Home = () => {
+  const [search] = useSearchParams();
   const { messages, setSocket, setMessages } = useSocketStore();
   const bottomRef = useRef<HTMLDivElement>(null);
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
-  const { roomsMessages, setSize, size, isValidating, isLastPage, isLoading } =
-    useMessages();
+  const {
+    roomsMessages,
+    setSize,
+    size,
+    isValidating,
+    isLastPage,
+    isLoading,
+    error,
+  } = useMessages();
   const { handleLoaderRef } = useInfiniteScroll(
     setSize,
     size,
@@ -31,9 +42,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (!data) return;
+    if (!data || !search.get("room_id")) return;
     const socket = new WebSocket(
-      `ws://5.253.62.94:8084/ws?room_id=4&user_id=${data?.data?.id}`
+      `ws://5.253.62.94:8084/ws?room_id=${search.get("room_id")}&user_id=${data?.data?.id}`
     );
     setSocket(socket);
 
@@ -58,7 +69,7 @@ const Home = () => {
     return () => {
       socket?.close();
     };
-  }, [data]);
+  }, [data, search]);
 
   useEffect(() => {
     if (roomsMessages) {
@@ -82,18 +93,29 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
-        <ChatContainer>
-          <div ref={handleLoaderRef}></div>
-          {isValidating && (
-            <div className="flex justify-center items-center">
-              <Loader />
-            </div>
-          )}
-          <ChatMessages id={data?.data?.id} messages={messages} />
-          <div ref={bottomRef}></div>
-        </ChatContainer>
-        <MessageInput scrollToBottom={scrollToBottom} />
+      <div className="h-[100vh]">
+        <Sidebar />
+        {!error && (
+          <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
+            {search.get("room_id") ? (
+              <>
+                <ChatContainer>
+                  <div ref={handleLoaderRef}></div>
+                  {isValidating && (
+                    <div className="flex justify-center items-center">
+                      <Loader />
+                    </div>
+                  )}
+                  <ChatMessages id={data?.data?.id} messages={messages} />
+                  <div ref={bottomRef}></div>
+                </ChatContainer>
+                <MessageInput scrollToBottom={scrollToBottom} />
+              </>
+            ) : (
+              <div className="text-white">No messages yet, start a chat</div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );

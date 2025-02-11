@@ -13,17 +13,18 @@ const useInfiniteScroll = (
     (entries: any) => {
       const target = entries[0];
 
-      if (target.isIntersecting) {
-        setSize(size + 1);
-        if (target.target.parentElement) {
-          target.target.parentElement.scrollBy({
-            top: 150,
-            behavior: "smooth",
-          });
-        }
+      if (target.isIntersecting && !isValidating && !isLoading && !isLastPage) {
+        setSize(size + 1).then(() => {
+          if (target.target.parentElement) {
+            target.target.parentElement.scrollBy({
+              top: 15,
+              behavior: "smooth",
+            });
+          }
+        });
       }
     },
-    [size]
+    [size, isValidating, isLastPage, isLoading, setSize]
   );
 
   const handleLoaderRef = useCallback(

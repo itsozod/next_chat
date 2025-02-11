@@ -1,14 +1,21 @@
 import { IconEye } from "@/assets/icons/Eye";
 import { IconEyeInvisible } from "@/assets/icons/EyeSlash";
 import PasswordIcon from "@/assets/icons/PasswordIcon";
+import { profileFetcher } from "@/components/header/Header";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { ChangeEvent, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 const Profile = () => {
+  const { data: avatar } = useSWR(
+    "http://5.253.62.94:8084/user/get-avatar",
+    profileFetcher
+  );
+  const { mutate } = useSWRConfig();
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -33,7 +40,6 @@ const Profile = () => {
         body: JSON.stringify(arg),
       });
       const data = await res.json();
-      console.log("pass", data);
 
       return data;
     } catch (e) {
@@ -53,7 +59,7 @@ const Profile = () => {
 
   const handleUpload = async (formData: FormData) => {
     try {
-      const res = await fetch("http://5.253.62.94:8084/user/avatar", {
+      const res = await fetch("http://5.253.62.94:8084/user/set-avatar", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${tokenInstance.getToken()}`,
@@ -61,8 +67,6 @@ const Profile = () => {
         body: formData,
       });
       const data = await res.json();
-      console.log("pass", data);
-
       return data;
     } catch (e) {
       console.log(e);
@@ -75,6 +79,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("avatar", file as File);
       await handleUpload(formData);
+      await mutate("http://5.253.62.94:8084/user/get-avatar");
     } catch (error) {
       console.error("Error converting file to base64:", error);
     }
@@ -86,7 +91,11 @@ const Profile = () => {
         <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-red-500 flex flex-col gap-5">
           <h1 className="text-white text-[1.3rem]">Profile picture</h1>
           <div className="w-full flex justify-between items-center">
-            <Avatar />
+            {avatar ? (
+              <img width={50} height={50} src={avatar}></img>
+            ) : (
+              <Avatar src={avatar} />
+            )}
             <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer">
               Choose picture
               <input

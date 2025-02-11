@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import useSWR from "swr";
+import { Button } from "@heroui/button";
 
 const menuItems = [
   {
@@ -30,12 +31,40 @@ const menuItems = [
   },
 ];
 
+export const profileFetcher = async (
+  url: string,
+  options: RequestInit = {}
+) => {
+  const { getToken } = tokenInstance;
+  const headers = {
+    Authorization: `Bearer ${getToken()}`,
+  };
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (response.status === 401) {
+    window.location.href = "/signin";
+  }
+
+  if (!response.ok) {
+    const errorResp = await response.json();
+    throw new Error(`${errorResp.error || response.statusText}`);
+  }
+  const data = await response.blob();
+  const img = URL.createObjectURL(data);
+  return img;
+};
+
 const Header = () => {
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
-  const { data: avatar } = useSWR("http://5.253.62.94:8084/user/avatar");
+  const { data: avatar } = useSWR(
+    "http://5.253.62.94:8084/user/get-avatar",
+    profileFetcher
+  );
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  console.log(avatar);
 
   return (
     <Navbar
@@ -79,13 +108,25 @@ const Header = () => {
       <NavbarContent justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              size="sm"
-            />
+            {avatar ? (
+              <Button className="bg-transparent">
+                <img
+                  width={50}
+                  height={50}
+                  src={avatar}
+                  className="w-full h-full"
+                  alt=""
+                />
+              </Button>
+            ) : (
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="secondary"
+                size="sm"
+              />
+            )}
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-10 gap-2">

@@ -1,9 +1,10 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { useSocketStore } from "@/shared/store/socket.store";
+import { useSWRConfig } from "swr";
 
 const ChatContainer = ({ children }: { children: ReactNode }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const { messages } = useSocketStore();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -22,7 +23,7 @@ const ChatContainer = ({ children }: { children: ReactNode }) => {
       style={{
         scrollbarWidth: "none",
       }}
-      className="flex flex-col border border-red-500 h-[500px] overflow-auto w-[100%] max-w-[600px] gap-2 p-1"
+      className="flex flex-col border border-red-500 h-[600px] overflow-auto w-[100%] max-w-[600px] gap-2 p-1"
     >
       {children}
     </div>
