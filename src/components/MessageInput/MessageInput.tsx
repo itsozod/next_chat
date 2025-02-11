@@ -34,8 +34,11 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
   };
 
   return (
-    <form onSubmit={handleMessage} className="w-full max-w-[600px]">
-      <div className="flex gap-1 justify-between mt-2">
+    <form
+      onSubmit={handleMessage}
+      className="w-full max-w-[600px] sticky bottom-3"
+    >
+      <div className="flex gap-1 justify-between mt-2 sticky bottom-1">
         <Input
           placeholder="Send a message"
           classNames={{
@@ -45,7 +48,8 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <Button
-          className="bg-[red] rounde rounded-full p-2"
+          disabled={!message?.length}
+          className="bg-[red] rounde rounded-full p-2 sticky bottom-0"
           isIconOnly
           type="submit"
         >

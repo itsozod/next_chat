@@ -1,15 +1,21 @@
 import Loader from "@/shared/ui/loader/Loader";
 import { Avatar } from "@heroui/avatar";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 
+interface Room {
+  id: number;
+  name: string;
+}
+
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { data: rooms, isLoading } = useSWR(
     "http://5.253.62.94:8084/user/my-rooms"
   );
-  const [search, setSearch] = useSearchParams();
+  const [search] = useSearchParams();
   return (
-    <aside className="h-full w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200 fixed top-18">
+    <aside className=" bg-[#003049] w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
       {isLoading ? (
         <div className="flex justify-start p-2">
           <Loader />
@@ -27,12 +33,11 @@ const Sidebar = () => {
           </div>
 
           <div className="overflow-y-auto w-full py-3">
-            {rooms?.data?.map((room) => (
+            {rooms?.data?.map((room: Room) => (
               <button
                 key={room.id}
                 onClick={() => {
-                  search.set("room_id", room.id);
-                  setSearch(search);
+                  navigate(`/?room_id=${room.id}`);
                 }}
                 className={`
                     w-full p-3 flex items-center gap-3

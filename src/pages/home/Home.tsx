@@ -7,27 +7,16 @@ import { useSocketStore } from "@/shared/store/socket.store";
 import ChatMessages from "@/components/Messages/ChatMessages";
 import MessageInput from "@/components/MessageInput/MessageInput";
 import ChatContainer from "@/components/ChatContainer/ChatContainer";
-import Sidebar from "@/components/Sidebar/Sidebar";
 import { useSearchParams } from "react-router-dom";
-import { error } from "console";
+import * as I from "@/shared/types";
 
 const Home = () => {
   const [search] = useSearchParams();
-  const { messages, setSocket, setMessages } = useSocketStore();
+  const { setSocket, setMessages } = useSocketStore();
   const bottomRef = useRef<HTMLDivElement>(null);
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
-  const {
-    roomsMessages,
-    setSize,
-    size,
-    isValidating,
-    isLastPage,
-    isLoading,
-    error,
-  } = useMessages();
+  const { roomsMessages, isValidating, isLastPage, isLoading } = useMessages();
   const { handleLoaderRef } = useInfiniteScroll(
-    setSize,
-    size,
     isValidating,
     isLastPage,
     isLoading
@@ -73,51 +62,37 @@ const Home = () => {
 
   useEffect(() => {
     if (roomsMessages) {
-      const newMessages = roomsMessages.flatMap((mess) => mess.data?.messages);
+      const newMessages = roomsMessages?.data?.messages;
       setMessages((prevMessages) => {
         const messageIds = new Set(prevMessages.map((msg) => msg.id));
         const uniqueMessages = newMessages.filter(
-          (msg) => !messageIds.has(msg.id)
+          (msg: I.Message) => !messageIds.has(msg.id)
         );
         return [...prevMessages, ...uniqueMessages];
       });
     }
   }, [roomsMessages]);
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-[100vh]">
-        <Loader />;
-      </div>
-    );
-
   return (
-    <>
-      <div className="h-[100vh]">
-        <Sidebar />
-        {!error && (
-          <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
-            {search.get("room_id") ? (
-              <>
-                <ChatContainer>
-                  <div ref={handleLoaderRef}></div>
-                  {isValidating && (
-                    <div className="flex justify-center items-center">
-                      <Loader />
-                    </div>
-                  )}
-                  <ChatMessages id={data?.data?.id} messages={messages} />
-                  <div ref={bottomRef}></div>
-                </ChatContainer>
-                <MessageInput scrollToBottom={scrollToBottom} />
-              </>
-            ) : (
-              <div className="text-white">No messages yet, start a chat</div>
+    <div className=" w-full flex justify-start p-2 gap-4 flex-col items-center h-svh">
+      {search.get("room_id") ? (
+        <>
+          <ChatContainer>
+            <div ref={handleLoaderRef}></div>
+            {isValidating && (
+              <div className="flex justify-center items-center">
+                <Loader />
+              </div>
             )}
-          </div>
-        )}
-      </div>
-    </>
+            <ChatMessages id={data?.data?.id} />
+            <div ref={bottomRef}></div>
+          </ChatContainer>
+          <MessageInput scrollToBottom={scrollToBottom} />
+        </>
+      ) : (
+        <div className="text-white">No messages yet, start a chat</div>
+      )}
+    </div>
   );
 };
 

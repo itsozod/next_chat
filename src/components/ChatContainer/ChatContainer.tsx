@@ -1,14 +1,14 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { useSocketStore } from "@/shared/store/socket.store";
-import { useSWRConfig } from "swr";
 
 const ChatContainer = ({ children }: { children: ReactNode }) => {
-  const { messages } = useSocketStore();
+  const { messages, setPage } = useSocketStore();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+    setPage(1);
   }, []);
 
   useEffect(() => {

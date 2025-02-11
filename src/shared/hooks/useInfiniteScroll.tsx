@@ -1,30 +1,28 @@
 import { useCallback, useRef } from "react";
+import { useSocketStore } from "../store/socket.store";
 
 const useInfiniteScroll = (
-  setSize: (value: number) => Promise<any[] | undefined>,
-  size: number,
   isValidating: boolean,
   isLastPage: boolean,
   isLoading: boolean
 ) => {
   const loaderRef = useRef<IntersectionObserver>();
+  const { page, setPage } = useSocketStore();
 
   const fetchNextPage = useCallback(
     (entries: any) => {
       const target = entries[0];
-
-      if (target.isIntersecting && !isValidating && !isLoading && !isLastPage) {
-        setSize(size + 1).then(() => {
-          if (target.target.parentElement) {
-            target.target.parentElement.scrollBy({
-              top: 15,
-              behavior: "smooth",
-            });
-          }
-        });
+      if (target.isIntersecting && !isLastPage) {
+        setPage(page + 1);
+        if (target.target.parentElement) {
+          target.target.parentElement.scrollBy({
+            top: 150,
+            behavior: "smooth",
+          });
+        }
       }
     },
-    [size, isValidating, isLastPage, isLoading, setSize]
+    [page]
   );
 
   const handleLoaderRef = useCallback(

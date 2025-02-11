@@ -4,4 +4,5 @@ export interface Message {
   message: string;
   sender_name: string;
   username: string;
+  created_at: string;
 }
