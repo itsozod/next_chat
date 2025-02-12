@@ -1,24 +1,36 @@
 import { ReactNode, useEffect, useRef } from "react";
-import { useSocketStore } from "@/shared/store/socket.store";
+import useMessages from "@/shared/hooks/useMessages";
 
 const ChatContainer = ({ children }: { children: ReactNode }) => {
-  const { messages, setPage } = useSocketStore();
+  const { messages } = useMessages();
   const containerRef = useRef<HTMLDivElement>(null);
+  const previousScrollHeightRef = useRef(0);
+  const { isValidating, size, setSize, isLastPage } = useMessages();
 
   useEffect(() => {
     if (!containerRef.current) return;
     containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
-    setPage(1);
   }, []);
 
   useEffect(() => {
-    if (messages.length <= 10 && containerRef.current) {
+    if (messages?.length <= 10 && containerRef.current) {
       containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
     }
   }, [messages]);
 
+  const handleScroll = () => {
+    const container = containerRef.current;
+    if (isLastPage) return;
+
+    if (container?.scrollTop <= 10 && !isValidating) {
+      previousScrollHeightRef.current = container.scrollHeight;
+      setSize(size + 1); // Fetch the next page
+    }
+  };
+
   return (
     <div
+      onScroll={handleScroll}
       ref={containerRef}
       style={{
         scrollbarWidth: "none",

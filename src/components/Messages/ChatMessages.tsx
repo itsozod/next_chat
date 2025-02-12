@@ -1,13 +1,13 @@
-import { useSocketStore } from "@/shared/store/socket.store";
-import { Avatar } from "@heroui/avatar";
+import useMessages from "@/shared/hooks/useMessages";
 import { useMemo } from "react";
+import * as I from "@/shared/types";
 const ChatMessages = ({ id }: { id: number }) => {
-  const { messages } = useSocketStore();
+  const { messages } = useMessages();
   const messageParser = useMemo(() => {
     return messages
       ?.slice()
       .reverse()
-      .map((mess) => {
+      .map((mess: I.Message) => {
         return (
           <div
             key={mess?.id}

@@ -5,12 +5,13 @@ import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { FormEvent, useState } from "react";
 import useSWR from "swr";
-import * as I from "@/shared/types";
+import useMessages from "@/shared/hooks/useMessages";
 
 const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
   const [message, setMessage] = useState("");
-  const { socket, setMessages } = useSocketStore();
+  const { socket } = useSocketStore();
+  const { mutate } = useMessages();
 
   const handleMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +26,19 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
         sender_name: data?.data?.username,
       };
       socket.send(JSON.stringify(mess));
-      setMessages((prev) => [messClient as I.Message, ...prev]);
+      mutate((existingData) => {
+        console.log("exist", existingData);
+        if (!existingData) return null;
+        const updatedData = { ...existingData };
+        const data = {
+          data: {
+            messages: [messClient, ...updatedData?.[0]?.data?.messages],
+            total_count: updatedData?.[0]?.data?.total_count + 1,
+          },
+        };
+
+        return [data];
+      }, false);
       setMessage("");
       scrollToBottom();
     } else {
@@ -48,7 +61,7 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <Button
-          disabled={!message?.length}
+          disabled={!message?.length || !message?.trim()}
           className="bg-[red] rounde rounded-full p-2 sticky bottom-0"
           isIconOnly
           type="submit"

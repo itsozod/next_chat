@@ -1,3 +1,4 @@
+import useMessages from "@/shared/hooks/useMessages";
 import Loader from "@/shared/ui/loader/Loader";
 import { Avatar } from "@heroui/avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -13,6 +14,7 @@ const Sidebar = () => {
   const { data: rooms, isLoading } = useSWR(
     "http://5.253.62.94:8084/user/my-rooms"
   );
+  const { setSize } = useMessages();
   const [search] = useSearchParams();
   return (
     <aside className=" bg-[#003049] w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
@@ -38,6 +40,7 @@ const Sidebar = () => {
                 key={room.id}
                 onClick={() => {
                   navigate(`/?room_id=${room.id}`);
+                  setSize(1);
                 }}
                 className={`
                     w-full p-3 flex items-center gap-3

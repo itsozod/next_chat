@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import useSWR from "swr";
-import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
+import useSWR, { MutatorCallback } from "swr";
 import Loader from "@/shared/ui/loader/Loader";
 import useMessages from "@/shared/hooks/useMessages";
 import { useSocketStore } from "@/shared/store/socket.store";
@@ -12,15 +11,10 @@ import * as I from "@/shared/types";
 
 const Home = () => {
   const [search] = useSearchParams();
-  const { setSocket, setMessages } = useSocketStore();
+  const { setSocket } = useSocketStore();
   const bottomRef = useRef<HTMLDivElement>(null);
   const { data } = useSWR("http://5.253.62.94:8084/user/me");
-  const { roomsMessages, isValidating, isLastPage, isLoading } = useMessages();
-  const { handleLoaderRef } = useInfiniteScroll(
-    isValidating,
-    isLastPage,
-    isLoading
-  );
+  const { isValidating, mutate } = useMessages();
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -43,8 +37,26 @@ const Home = () => {
 
     socket.onmessage = (event) => {
       console.log("Message from server:", event.data);
-      setMessages((prev) => [JSON.parse(event.data), ...prev]);
-      scrollToBottom();
+      const parsed = JSON.parse(event.data);
+      if (parsed?.room_id === Number(search.get("room_id"))) {
+        mutate((existingData) => {
+          if (!existingData) return null;
+
+          const updatedData = { ...existingData };
+          const data = {
+            data: {
+              messages: [
+                JSON.parse(event.data),
+                ...updatedData?.[0]?.data?.messages,
+              ],
+              total_count: updatedData?.[0]?.data?.total_count + 1,
+            },
+          };
+
+          return [data];
+        }, false);
+        scrollToBottom();
+      }
     };
 
     socket.onerror = (error) => {
@@ -61,24 +73,16 @@ const Home = () => {
   }, [data, search]);
 
   useEffect(() => {
-    if (roomsMessages) {
-      const newMessages = roomsMessages?.data?.messages;
-      setMessages((prevMessages) => {
-        const messageIds = new Set(prevMessages.map((msg) => msg.id));
-        const uniqueMessages = newMessages.filter(
-          (msg: I.Message) => !messageIds.has(msg.id)
-        );
-        return [...prevMessages, ...uniqueMessages];
-      });
+    if (search.get("room_id")) {
+      mutate();
     }
-  }, [roomsMessages]);
+  }, [search]);
 
   return (
     <div className=" w-full flex justify-start p-2 gap-4 flex-col items-center h-svh">
       {search.get("room_id") ? (
         <>
           <ChatContainer>
-            <div ref={handleLoaderRef}></div>
             {isValidating && (
               <div className="flex justify-center items-center">
                 <Loader />

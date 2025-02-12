@@ -1,30 +1,44 @@
-// import useSWRInfinite from "swr/infinite";
-import { useSocketStore } from "../store/socket.store";
 import { useSearchParams } from "react-router-dom";
-import useSWR from "swr";
-
+import useSWRInfinite from "swr/infinite";
 const useMessages = () => {
-  const { messages, page } = useSocketStore();
   const [search] = useSearchParams();
+  const getKey = (pageIndex: number, previousPageData) => {
+    pageIndex = pageIndex + 1;
+
+    if (
+      previousPageData &&
+      previousPageData?.data?.messages?.length >=
+        previousPageData?.data?.total_count
+    )
+      return null;
+    return search.get("room_id")
+      ? `http://5.253.62.94:8084/room/messages?room_id=${search.get("room_id")}&page=${pageIndex}`
+      : null;
+  };
 
   const {
     data: roomsMessages,
+    size,
+    setSize,
+    mutate,
     isLoading,
     isValidating,
-    mutate,
-  } = useSWR(
-    search.get("room_id")
-      ? `http://5.253.62.94:8084/room/messages?room_id=${search.get("room_id")}&page=${page}`
-      : null,
-    {
-      dedupingInterval: 0,
-    }
-  );
+  } = useSWRInfinite(getKey, {
+    revalidateFirstPage: false,
+  });
+  console.log("roomMess", roomsMessages);
 
-  const isLastPage = messages?.length >= roomsMessages?.data?.total_count;
+  const messages = roomsMessages
+    ? roomsMessages.flatMap((page) => page?.data?.messages)
+    : [];
+
+  const isLastPage = messages.length >= roomsMessages?.[0]?.data?.total_count;
+  // Dependency ensures it runs when room_id changes
 
   return {
-    roomsMessages,
+    messages,
+    size,
+    setSize,
     isLoading,
     isValidating,
     isLastPage,
