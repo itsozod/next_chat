@@ -43,7 +43,7 @@ const Login = () => {
     <>
       <div className="bg-[#202020] h-[100vh]">
         <div className="flex justify-center items-center flex-col h-svh g-10">
-          <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-red-500">
+          <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-primary-300">
             <div className="flex items-center flex-col gap-2">
               <h1
                 style={{
@@ -96,9 +96,10 @@ const Login = () => {
                   }
                 />
                 <Button
+                  color="primary"
+                  variant="shadow"
                   isLoading={isMutating}
                   type="submit"
-                  className="bg-[red] text-[white]"
                 >
                   Login
                 </Button>
@@ -106,7 +107,7 @@ const Login = () => {
             </form>
             <div className="flex items-center justify-center gap-1">
               <div className="text-white">Don't have an account?</div>
-              <Link to={"/signup"} className="text-[#D71E1E]">
+              <Link to={"/signup"} className="text-primary-300">
                 Sign Up
               </Link>
             </div>

@@ -3,6 +3,7 @@ import { GroupIcon } from "@/shared/assets/icons/group";
 import useMessages from "@/shared/hooks/useMessages";
 import Loader from "@/shared/ui/loader/Loader";
 import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 
@@ -35,19 +36,23 @@ const Sidebar = () => {
             </div>
           </div>
 
-          <div className="overflow-y-auto w-full py-3">
+          <div className="flex flex-col gap-3 items-start overflow-y-autopy-3">
             {rooms?.data?.map((room: Room) => (
-              <button
+              <Button
                 key={room.id}
-                onClick={() => {
+                color={
+                  Number(search.get("room_id")) === room.id
+                    ? "primary"
+                    : "default"
+                }
+                variant="shadow"
+                onPress={() => {
                   navigate(`/?room_id=${room.id}`);
                   setSize(1);
                 }}
                 className={`
-                    w-full p-3 flex flex-col sm:flex-row items-center gap-3
-                   hover:bg-purple-950 
-                    ${Number(search.get("room_id")) === room.id ? "bg-primary-100" : ""}
-                  `}
+                  w-full h-full p-3 flex flex-col justify-start sm:flex-row items-center gap-3
+                   hover:bg-purple-950`}
               >
                 {room?.is_group ? (
                   <div>
@@ -59,11 +64,11 @@ const Sidebar = () => {
                   </div>
                 )}
 
-                <div className="lg:block text-left min-w-0">
+                <div className="lg:block text-left">
                   <div className="text-white sm:text-[1rem]">{room.name}</div>
                   <div className="text-sm text-zinc-400"></div>
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
         </>
