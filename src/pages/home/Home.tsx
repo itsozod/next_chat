@@ -13,7 +13,7 @@ const Home = () => {
   const [search] = useSearchParams();
   const { setSocket } = useSocketStore();
   const bottomRef = useRef<HTMLDivElement>(null);
-  const { data } = useSWR("http://5.253.62.94:8084/user/me");
+  const { data } = useSWR("/user/me");
   const { isValidating, mutate } = useMessages();
 
   const scrollToBottom = () => {

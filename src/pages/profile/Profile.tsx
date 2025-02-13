@@ -11,10 +11,7 @@ import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 const Profile = () => {
-  const { data: avatar, mutate } = useSWR(
-    "http://5.253.62.94:8084/user/get-avatar",
-    profileFetcher
-  );
+  const { data: avatar, mutate } = useSWR("/user/get-avatar", profileFetcher);
 
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -48,7 +45,7 @@ const Profile = () => {
   };
 
   const { isMutating, trigger: change } = useSWRMutation(
-    "http://5.253.62.94:8084/auth/change-password",
+    "/auth/change-password",
     changePassword
   );
 

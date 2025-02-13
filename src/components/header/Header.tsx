@@ -39,7 +39,7 @@ export const profileFetcher = async (
   const headers = {
     Authorization: `Bearer ${getToken()}`,
   };
-  const response = await fetch(url, {
+  const response = await fetch(import.meta.env.VITE_BASE_URL + url, {
     ...options,
     headers,
     cache: "no-store",
@@ -59,11 +59,8 @@ export const profileFetcher = async (
 };
 
 const Header = () => {
-  const { data } = useSWR("http://5.253.62.94:8084/user/me");
-  const { data: avatar } = useSWR(
-    "http://5.253.62.94:8084/user/get-avatar",
-    profileFetcher
-  );
+  const { data } = useSWR("/user/me");
+  const { data: avatar } = useSWR("/user/get-avatar", profileFetcher);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -101,8 +98,8 @@ const Header = () => {
         </NavbarItem>
 
         <NavbarItem>
-          <Link color="foreground" to={"/chat"}>
-            Chats
+          <Link color="foreground" to={"/contacts"}>
+            Contacts
           </Link>
         </NavbarItem>
       </NavbarContent>

@@ -21,7 +21,7 @@ const Login = () => {
     data,
     isMutating,
     trigger: login,
-  } = useSWRMutation("http://5.253.62.94:8084/auth/sign-in", signIn);
+  } = useSWRMutation("/auth/sign-in", signIn);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

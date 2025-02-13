@@ -9,7 +9,7 @@ import useMessages from "@/shared/hooks/useMessages";
 import { RoomMessagesData } from "@/shared/types";
 
 const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
-  const { data } = useSWR("http://5.253.62.94:8084/user/me");
+  const { data } = useSWR("/user/me");
   const [message, setMessage] = useState("");
   const { socket } = useSocketStore();
   const { mutate } = useMessages();

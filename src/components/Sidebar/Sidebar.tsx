@@ -3,7 +3,6 @@ import { GroupIcon } from "@/shared/assets/icons/group";
 import useMessages from "@/shared/hooks/useMessages";
 import Loader from "@/shared/ui/loader/Loader";
 import { Avatar } from "@heroui/avatar";
-import { Button } from "@heroui/button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 
@@ -15,9 +14,7 @@ interface Room {
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { data: rooms, isLoading } = useSWR(
-    "http://5.253.62.94:8084/user/my-rooms"
-  );
+  const { data: rooms, isLoading } = useSWR("/user/my-rooms");
   const { setSize } = useMessages();
   const [search] = useSearchParams();
   return (
@@ -38,21 +35,15 @@ const Sidebar = () => {
 
           <div className="flex flex-col gap-3 items-start overflow-y-autopy-3">
             {rooms?.data?.map((room: Room) => (
-              <Button
+              <button
                 key={room.id}
-                color={
-                  Number(search.get("room_id")) === room.id
-                    ? "primary"
-                    : "default"
-                }
-                variant="shadow"
-                onPress={() => {
+                onClick={() => {
                   navigate(`/?room_id=${room.id}`);
                   setSize(1);
                 }}
                 className={`
                   w-full h-full p-3 flex flex-col justify-start sm:flex-row items-center gap-3
-                   hover:bg-purple-950`}
+                   hover:bg-purple-950 ${Number(search.get("room_id")) === room.id ? "bg-primary-100" : ""}`}
               >
                 {room?.is_group ? (
                   <div>
@@ -68,7 +59,7 @@ const Sidebar = () => {
                   <div className="text-white sm:text-[1rem]">{room.name}</div>
                   <div className="text-sm text-zinc-400"></div>
                 </div>
-              </Button>
+              </button>
             ))}
           </div>
         </>

@@ -13,7 +13,7 @@ const useMessages = () => {
     )
       return null;
     return search.get("room_id")
-      ? `http://5.253.62.94:8084/room/messages?room_id=${search.get("room_id")}&page=${pageIndex}`
+      ? `/room/messages?room_id=${search.get("room_id")}&page=${pageIndex}`
       : null;
   };
 

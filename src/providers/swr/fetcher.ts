@@ -5,7 +5,7 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
   const headers = {
     Authorization: `Bearer ${getToken()}`,
   };
-  const response = await fetch(url, {
+  const response = await fetch(import.meta.env.VITE_BASE_URL + url, {
     ...options,
     headers,
   });

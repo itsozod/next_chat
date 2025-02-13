@@ -24,7 +24,7 @@ const Register = () => {
   };
 
   const { isMutating, trigger: register } = useSWRMutation(
-    "http://5.253.62.94:8084/auth/sign-up",
+    "/auth/sign-up",
     signUp
   );
 
