@@ -6,3 +6,10 @@ export interface Message {
   username: string;
   created_at: string;
 }
+
+export interface RoomMessagesData {
+  data: {
+    messages: Message[];
+    total_count: number;
+  };
+}

@@ -1,8 +1,7 @@
-import { useSocketStore } from "@/shared/store/socket.store";
-import { Avatar } from "@heroui/avatar";
+import useMessages from "@/shared/hooks/useMessages";
 import { useMemo } from "react";
 const ChatMessages = ({ id }: { id: number }) => {
-  const { messages } = useSocketStore();
+  const { messages } = useMessages();
   const messageParser = useMemo(() => {
     return messages
       ?.slice()
@@ -13,12 +12,12 @@ const ChatMessages = ({ id }: { id: number }) => {
             key={mess?.id}
             className={`flex gap-3 justify-center ${mess?.sender_id === id ? "bg-[#124c12]" : "bg-[blue]"} ${mess?.sender_id === id ? "ml-auto" : "mr-auto"} p-4 rounded-md text-white`}
           >
-            <p className="flex justify-center items-center  rounded-[50%] bg-white text-black w-[30px] h-[30px]">
+            <p className="flex justify-center items-center rounded-[50%] bg-white text-black w-[20px] h-[20px]">
               {mess?.sender_name?.[0]?.toUpperCase()}
             </p>
             <div>
+              <p className="text-[0.9rem]">{mess?.sender_name}</p>
               <strong className="text-[1rem]">{mess?.message}</strong>
-              <p>{mess?.sender_name}</p>
               <p>{mess?.created_at?.slice(11, 16)?.replace("T", " ")}</p>
             </div>
           </div>

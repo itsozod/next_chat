@@ -13,11 +13,11 @@ const SWRProvider = ({ children }: { children: ReactNode }) => {
           });
         },
         fetcher: fetcher,
-        revalidateOnReconnect: false,
-        revalidateOnFocus: false,
-        dedupingInterval: 1000000,
-        shouldRetryOnError: false,
-        keepPreviousData: true,
+        // revalidateOnReconnect: false,
+        // revalidateOnFocus: false,
+        // dedupingInterval: 1000000,
+        // shouldRetryOnError: false,
+        // keepPreviousData: true,
       }}
     >
       {children}
