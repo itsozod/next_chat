@@ -11,14 +11,14 @@ const ChatMessages = ({ id }: { id: number }) => {
         return (
           <div
             key={mess?.id}
-            className={`flex gap-3 justify-center ${mess?.sender_id === id ? "bg-[#124c12]" : "bg-[blue]"} ${mess?.sender_id === id ? "ml-auto" : "mr-auto"} p-4 rounded-md text-white`}
+            className={`flex gap-3 justify-center ${mess?.sender_id === id ? "bg-primary-100" : "bg-[#404048]"} ${mess?.sender_id === id ? "ml-auto" : "mr-auto"} p-4 rounded-md text-white`}
           >
-            <p className="flex justify-center items-center  rounded-[50%] bg-white text-black w-[30px] h-[30px]">
+            <p className="flex justify-center items-center rounded-[50%] bg-white text-black w-[20px] h-[20px]">
               {mess?.sender_name?.[0]?.toUpperCase()}
             </p>
             <div>
+              <p className="text-[0.9rem]">{mess?.sender_name}</p>
               <strong className="text-[1rem]">{mess?.message}</strong>
-              <p>{mess?.sender_name}</p>
               <p>{mess?.created_at?.slice(11, 16)?.replace("T", " ")}</p>
             </div>
           </div>

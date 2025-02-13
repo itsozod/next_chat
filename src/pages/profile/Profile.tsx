@@ -7,15 +7,15 @@ import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { ChangeEvent, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
 const Profile = () => {
-  const { data: avatar } = useSWR(
+  const { data: avatar, mutate } = useSWR(
     "http://5.253.62.94:8084/user/get-avatar",
     profileFetcher
   );
-  const { mutate } = useSWRConfig();
+
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -79,7 +79,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("avatar", file as File);
       await handleUpload(formData);
-      await mutate("http://5.253.62.94:8084/user/get-avatar");
+      await mutate();
     } catch (error) {
       console.error("Error converting file to base64:", error);
     }
@@ -102,6 +102,7 @@ const Profile = () => {
                 type="file"
                 className="hidden"
                 onChange={handleChangeImg}
+                accept=".jpg, .jpeg, .png"
               />
             </label>
           </div>

@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 import useSWRInfinite from "swr/infinite";
+import { RoomMessagesData } from "../types";
 const useMessages = () => {
   const [search] = useSearchParams();
-  const getKey = (pageIndex: number, previousPageData) => {
+  const getKey = (pageIndex: number, previousPageData: RoomMessagesData) => {
     pageIndex = pageIndex + 1;
 
     if (

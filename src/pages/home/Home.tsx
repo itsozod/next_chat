@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import useSWR, { MutatorCallback } from "swr";
+import useSWR from "swr";
 import Loader from "@/shared/ui/loader/Loader";
 import useMessages from "@/shared/hooks/useMessages";
 import { useSocketStore } from "@/shared/store/socket.store";
@@ -7,7 +6,8 @@ import ChatMessages from "@/components/Messages/ChatMessages";
 import MessageInput from "@/components/MessageInput/MessageInput";
 import ChatContainer from "@/components/ChatContainer/ChatContainer";
 import { useSearchParams } from "react-router-dom";
-import * as I from "@/shared/types";
+import { useEffect, useRef } from "react";
+import { RoomMessagesData } from "@/shared/types";
 
 const Home = () => {
   const [search] = useSearchParams();
@@ -39,9 +39,8 @@ const Home = () => {
       console.log("Message from server:", event.data);
       const parsed = JSON.parse(event.data);
       if (parsed?.room_id === Number(search.get("room_id"))) {
-        mutate((existingData) => {
-          if (!existingData) return null;
-
+        mutate((existingData: RoomMessagesData[] | undefined) => {
+          if (!existingData) return undefined;
           const updatedData = { ...existingData };
           const data = {
             data: {
@@ -79,7 +78,7 @@ const Home = () => {
   }, [search]);
 
   return (
-    <div className=" w-full flex justify-start p-2 gap-4 flex-col items-center h-svh">
+    <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
       {search.get("room_id") ? (
         <>
           <ChatContainer>

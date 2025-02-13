@@ -2,10 +2,9 @@ import { ReactNode, useEffect, useRef } from "react";
 import useMessages from "@/shared/hooks/useMessages";
 
 const ChatContainer = ({ children }: { children: ReactNode }) => {
-  const { messages } = useMessages();
   const containerRef = useRef<HTMLDivElement>(null);
   const previousScrollHeightRef = useRef(0);
-  const { isValidating, size, setSize, isLastPage } = useMessages();
+  const { messages, isValidating, size, setSize, isLastPage } = useMessages();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -15,16 +14,22 @@ const ChatContainer = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (messages?.length <= 10 && containerRef.current) {
       containerRef.current.scrollTo(0, containerRef.current.scrollHeight);
+    } else if (containerRef.current && previousScrollHeightRef.current) {
+      const container = containerRef.current;
+      const newScrollHeight = container.scrollHeight;
+      const scrollDifference =
+        newScrollHeight - previousScrollHeightRef.current;
+      container.scrollTop += scrollDifference;
     }
   }, [messages]);
 
   const handleScroll = () => {
-    const container = containerRef.current;
     if (isLastPage) return;
+    const container = containerRef.current;
 
-    if (container?.scrollTop <= 10 && !isValidating) {
+    if (container?.scrollTop === 0 && !isValidating) {
       previousScrollHeightRef.current = container.scrollHeight;
-      setSize(size + 1); // Fetch the next page
+      setSize(size + 1);
     }
   };
 
@@ -35,7 +40,7 @@ const ChatContainer = ({ children }: { children: ReactNode }) => {
       style={{
         scrollbarWidth: "none",
       }}
-      className="flex flex-col border border-red-500 h-[600px] overflow-auto w-[100%] max-w-[600px] gap-2 p-1"
+      className="flex flex-col border border-red-500 h-[600px] overflow-auto w-[100%] max-w-[400px] gap-2 p-1 sm:max-w-[600px]"
     >
       {children}
     </div>

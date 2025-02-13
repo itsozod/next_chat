@@ -7,9 +7,9 @@ export interface Message {
   created_at: string;
 }
 
-export type ExistingData = {
+export interface RoomMessagesData {
   data: {
     messages: Message[];
     total_count: number;
   };
-};
+}

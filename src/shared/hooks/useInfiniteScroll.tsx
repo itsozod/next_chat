@@ -1,5 +1,4 @@
 import { useCallback, useRef } from "react";
-import { useSocketStore } from "../store/socket.store";
 
 const useInfiniteScroll = (
   size: number,
@@ -9,8 +8,6 @@ const useInfiniteScroll = (
   isLoading: boolean
 ) => {
   const loaderRef = useRef<IntersectionObserver>();
-  // const { page, setPage } = useSocketStore();
-
   const fetchNextPage = useCallback(
     (entries: any) => {
       const target = entries[0];
