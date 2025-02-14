@@ -40,6 +40,7 @@ const Home = () => {
     socket.onmessage = (event) => {
       console.log("Message from server:", event.data);
       const parsed = JSON.parse(event.data);
+
       if (parsed?.room_id === Number(search.get("room_id"))) {
         mutate((existingData: RoomMessagesData[] | undefined) => {
           if (!existingData) return undefined;
@@ -47,7 +48,10 @@ const Home = () => {
           const data = {
             data: {
               messages: [
-                JSON.parse(event.data),
+                {
+                  ...parsed,
+                  sender_name: parsed?.sender_fullname,
+                },
                 ...updatedData?.[0]?.data?.messages,
               ],
               total_count: updatedData?.[0]?.data?.total_count + 1,
