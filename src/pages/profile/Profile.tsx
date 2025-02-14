@@ -93,7 +93,7 @@ const Profile = () => {
             ) : (
               <Avatar src={avatar} />
             )}
-            <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer">
+            <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer text-black">
               Choose picture
               <input
                 type="file"
@@ -150,9 +150,11 @@ const Profile = () => {
                   }
                 />
                 <Button
+                  color="primary"
+                  variant="solid"
                   isLoading={isMutating}
                   type="submit"
-                  className="bg-[red] text-[white]"
+                  // className="bg-[red] text-[white]"
                 >
                   Submit
                 </Button>

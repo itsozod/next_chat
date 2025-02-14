@@ -14,6 +14,7 @@ import useSWR from "swr";
 import { Avatar } from "@heroui/avatar";
 import { AddContact } from "@/shared/assets/icons/addContact";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
+import Loader from "@/shared/ui/loader/Loader";
 type User = {
   id: number;
   fullname: string;
@@ -22,17 +23,18 @@ type User = {
 type UserResp = {
   data: User[];
 };
+type Contact = {
+  id: number;
+  username: string;
+  fullname: string;
+};
 
 export default function Contacts() {
   const [searchValue, setSearchValue] = useState("");
   const { data: users } = useSWR<UserResp>(
-    searchValue
-      ? `http://5.253.62.94:8084/user/search?username=${searchValue}`
-      : null
+    searchValue ? `/user/search?username=${searchValue}` : null
   );
-  const { data: contacts } = useSWR("/contact");
-
-  console.log("contacts", contacts);
+  const { data: contacts, isLoading, mutate } = useSWR("/contact");
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isAddContact, setIsAddContact] = useState(false);
@@ -80,12 +82,35 @@ export default function Contacts() {
     });
   }, [users]);
 
+  const contactsParser = useMemo(() => {
+    return contacts?.data?.map((contact: Contact) => {
+      return (
+        <div
+          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary-200"
+          key={contact?.id}
+        >
+          <div className="flex gap-2 items-center">
+            <Avatar />
+            <div className="flex flex-col gap-1">
+              <div>{contact?.username}</div>
+              <div>{contact?.fullname}</div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }, [contacts]);
+
   return (
     <div className="flex flex-col gap-2 p-3">
       <Button onPress={onOpen} fullWidth className="flex justify-start">
         <UserIcon />
         Search...
       </Button>
+      <div className="flex flex-col gap-3 max-h-[500px] overflow-auto">
+        <h1 className="text-[1.5rem]">Contacts</h1>
+        {isLoading ? <Loader /> : contactsParser}
+      </div>
       <Modal
         className="bg-slate-900"
         isOpen={isOpen}
@@ -135,8 +160,9 @@ export default function Contacts() {
                 </Button>
                 <Button
                   color="primary"
-                  onPress={() => {
-                    addContact({ contact_id: contactId });
+                  onPress={async () => {
+                    await addContact({ contact_id: contactId });
+                    await mutate();
                     onClose();
                   }}
                 >

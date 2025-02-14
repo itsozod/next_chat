@@ -31,6 +31,9 @@ module.exports = {
         foreground: "#ffffff",
         focus: "#F182F6",
       },
+      textColor: {
+        DEFAULT: "#ffffff", // Set default text color to white
+      },
     },
   },
   plugins: [
@@ -56,6 +59,9 @@ module.exports = {
               foreground: "#ffffff",
             },
             focus: "#F182F6",
+          },
+          textColor: {
+            DEFAULT: "#ffffff",
           },
         },
       },

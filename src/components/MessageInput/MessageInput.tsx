@@ -17,6 +17,8 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
 
   const handleMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const now = new Date();
+
     if (socket && socket.readyState === WebSocket.OPEN) {
       const mess = {
         token: tokenInstance.getToken(),
@@ -25,7 +27,8 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
       const messClient = {
         message: message,
         sender_id: data?.data?.id,
-        sender_name: data?.data?.username,
+        sender_name: data?.data?.fullname,
+        time: `${now.getHours()}:${now.getMinutes()}`,
       };
       socket.send(JSON.stringify(mess));
       mutate((existingData: RoomMessagesData[] | undefined) => {

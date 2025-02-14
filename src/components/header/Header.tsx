@@ -26,8 +26,8 @@ const menuItems = [
     path: "/",
   },
   {
-    title: "Chats",
-    path: "/chat",
+    title: "Contacts",
+    path: "/contacts",
   },
 ];
 
@@ -158,7 +158,7 @@ const Header = () => {
             key={item.path}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Link className="w-full" to={item.path}>
+            <Link className="w-full text-white" to={item.path}>
               {item.title}
             </Link>
           </NavbarMenuItem>
