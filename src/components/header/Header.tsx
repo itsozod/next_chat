@@ -14,7 +14,7 @@ import {
   DropdownTrigger,
 } from "@heroui/dropdown";
 import { Avatar } from "@heroui/avatar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import useSWR from "swr";
@@ -59,9 +59,10 @@ export const profileFetcher = async (
 };
 
 const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { data } = useSWR("/user/me");
   const { data: avatar } = useSWR("/user/get-avatar", profileFetcher);
-  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -91,28 +92,27 @@ const Header = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" to={"/"}>
-            Home
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link color="foreground" to={"/contacts"}>
-            Contacts
-          </Link>
-        </NavbarItem>
+        {menuItems?.map((item) => (
+          <NavbarItem>
+            <Link
+              className={`${item.path === location.pathname ? "text-primary-500" : ""}`}
+              to={item.path}
+            >
+              {item.title}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
       <NavbarContent justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             {avatar ? (
-              <Button className="bg-transparent">
+              <Button size="sm" className="bg-transparent rounded-md">
                 <img
                   width={50}
                   height={50}
                   src={avatar}
-                  className="w-full h-full"
+                  className="w-full h-full rounded-[50%]"
                   alt=""
                 />
               </Button>

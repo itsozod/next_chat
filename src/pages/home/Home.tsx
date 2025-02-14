@@ -8,6 +8,7 @@ import ChatContainer from "@/components/ChatContainer/ChatContainer";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { RoomMessagesData } from "@/shared/types";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [search] = useSearchParams();
@@ -27,12 +28,13 @@ const Home = () => {
   useEffect(() => {
     if (!data || !search.get("room_id")) return;
     const socket = new WebSocket(
-      `ws://5.253.62.94:8084/ws?room_id=${search.get("room_id")}&user_id=${data?.data?.id}`
+      `${import.meta.env.VITE_BASE_URL_SOCKET}/ws?room_id=${search.get("room_id")}&user_id=${data?.data?.id}`
     );
     setSocket(socket);
 
     socket.onopen = () => {
       console.log("Connected!!!");
+      toast.success("Connected");
     };
 
     socket.onmessage = (event) => {
@@ -60,6 +62,7 @@ const Home = () => {
 
     socket.onerror = (error) => {
       console.error("WebSocket error:", error);
+      toast.error("Not connected, please wait a little bit");
     };
 
     socket.onclose = () => {
@@ -67,7 +70,7 @@ const Home = () => {
     };
 
     return () => {
-      socket?.close();
+      socket?.close(1000, "Normal closure");
     };
   }, [data, search]);
 

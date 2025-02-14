@@ -27,14 +27,12 @@ const useMessages = () => {
   } = useSWRInfinite(getKey, {
     revalidateFirstPage: false,
   });
-  console.log("roomMess", roomsMessages);
 
   const messages = roomsMessages
     ? roomsMessages.flatMap((page) => page?.data?.messages)
     : [];
 
   const isLastPage = messages.length >= roomsMessages?.[0]?.data?.total_count;
-  // Dependency ensures it runs when room_id changes
 
   return {
     messages,

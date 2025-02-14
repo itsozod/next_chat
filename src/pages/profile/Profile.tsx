@@ -85,11 +85,11 @@ const Profile = () => {
   return (
     <div>
       <div className="flex p-3 justify-center items-center flex-col h-svh g-10">
-        <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-red-500 flex flex-col gap-5">
+        <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-primary-300 flex flex-col gap-5">
           <h1 className="text-white text-[1.3rem]">Profile picture</h1>
           <div className="w-full flex justify-between items-center">
             {avatar ? (
-              <img width={50} height={50} src={avatar}></img>
+              <img className="rounded-[50%]" width={50} height={50} src={avatar}></img>
             ) : (
               <Avatar src={avatar} />
             )}

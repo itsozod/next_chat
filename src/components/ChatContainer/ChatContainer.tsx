@@ -40,7 +40,7 @@ const ChatContainer = ({ children }: { children: ReactNode }) => {
       style={{
         scrollbarWidth: "none",
       }}
-      className="flex flex-col border border-red-500 h-[600px] overflow-auto w-[100%] max-w-[400px] gap-2 p-1 sm:max-w-[600px]"
+      className="flex flex-col border border-primary-300 h-[600px] overflow-auto w-[100%] max-w-[400px] gap-2 p-1 sm:max-w-[600px]"
     >
       {children}
     </div>

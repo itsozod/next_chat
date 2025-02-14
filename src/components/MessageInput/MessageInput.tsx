@@ -7,6 +7,7 @@ import { FormEvent, useRef, useState } from "react";
 import useSWR from "swr";
 import useMessages from "@/shared/hooks/useMessages";
 import { RoomMessagesData } from "@/shared/types";
+import toast from "react-hot-toast";
 
 const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
   const { data } = useSWR("/user/me");
@@ -28,7 +29,7 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
         message: message,
         sender_id: data?.data?.id,
         sender_name: data?.data?.fullname,
-        time: `${now.getHours()}:${now.getMinutes()}`,
+        created_at: `${now.getHours()}:${now.getMinutes()}`,
       };
       socket.send(JSON.stringify(mess));
       mutate((existingData: RoomMessagesData[] | undefined) => {
@@ -48,6 +49,7 @@ const MessageInput = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
       scrollToBottom();
     } else {
       console.error("WebSocket is not open.");
+      toast.loading("Websocket is connecting, please wait");
     }
   };
 
