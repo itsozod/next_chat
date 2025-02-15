@@ -18,7 +18,7 @@ const Sidebar = () => {
   const { setSize } = useMessages();
   const [search] = useSearchParams();
   return (
-    <aside className=" bg-[#003049] w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
+    <aside className="w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
       {isLoading ? (
         <div className="flex justify-start p-2">
           <Loader />
@@ -27,8 +27,8 @@ const Sidebar = () => {
         <>
           <div className="border-b border-base-300 w-full p-5">
             <div className="flex items-center gap-2">
-              <span className="font-medium hidden lg:block text-white text-[1.5rem]">
-                Rooms
+              <span className="font-medium hidden lg:block text-primary text-[1.5rem]">
+                Chats
               </span>
             </div>
           </div>
@@ -43,7 +43,7 @@ const Sidebar = () => {
                 }}
                 className={`
                   w-full h-full p-3 flex flex-col justify-start sm:flex-row items-center gap-3
-                   hover:bg-purple-950 ${Number(search.get("room_id")) === room.id ? "bg-primary-100" : ""}`}
+                   hover:bg-purple-500 ${Number(search.get("room_id")) === room.id ? "bg-primary-400" : ""}`}
               >
                 {room?.is_group ? (
                   <div>
@@ -56,7 +56,7 @@ const Sidebar = () => {
                 )}
 
                 <div className="lg:block text-left">
-                  <div className="text-white sm:text-[1rem]">{room.name}</div>
+                  <div className="text-primary sm:text-[1rem]">{room.name}</div>
                   <div className="text-sm text-zinc-400"></div>
                 </div>
               </button>

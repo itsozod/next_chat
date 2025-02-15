@@ -96,8 +96,6 @@ const Login = () => {
                   }
                 />
                 <Button
-                  color="primary"
-                  variant="shadow"
                   isLoading={isMutating}
                   type="submit"
                 >

@@ -67,7 +67,7 @@ const Header = () => {
 
   return (
     <Navbar
-      className="bg-[#124559] text-white"
+      className="shadow-lg"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={(state) => setIsMenuOpen(state)}
     >
@@ -84,7 +84,7 @@ const Header = () => {
               fontWeight: "bolder",
               fontStyle: "normal",
             }}
-            className="font-bold text-inherit text-2xl"
+            className="font-bold text-primary text-2xl"
           >
             next chat
           </p>
@@ -95,7 +95,7 @@ const Header = () => {
         {menuItems?.map((item) => (
           <NavbarItem>
             <Link
-              className={`${item.path === location.pathname ? "text-primary-500" : ""}`}
+              className={`${item.path === location.pathname ? "text-primary-500" : "text-primary"}`}
               to={item.path}
             >
               {item.title}
