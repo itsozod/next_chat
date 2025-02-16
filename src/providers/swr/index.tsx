@@ -10,6 +10,7 @@ const SWRProvider = ({ children }: { children: ReactNode }) => {
         onError(err) {
           toast.error(`Error while fetching, ${err}`, {
             position: "top-right",
+            duration: 3000,
           });
         },
         fetcher: fetcher,
