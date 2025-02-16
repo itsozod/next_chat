@@ -9,6 +9,7 @@ import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
+import toast from "react-hot-toast";
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -29,6 +30,10 @@ const Login = () => {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.username.trim() === "" || formData.password.trim() === "") {
+      toast.error("Please enter username and password!");
+      return;
+    }
     await login(formData);
   };
 

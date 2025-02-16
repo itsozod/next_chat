@@ -5,6 +5,7 @@ export interface Message {
   sender_name: string;
   username: string;
   created_at: string;
+  has_premium: boolean;
 }
 
 export interface RoomMessagesData {

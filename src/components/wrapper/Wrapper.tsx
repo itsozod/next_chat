@@ -4,13 +4,11 @@ import Sidebar from "../Sidebar/Sidebar";
 
 const Wrapper = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col">
-      <Header />
-      <div className="w-full flex h-svh">
-        <Sidebar />
-        <div className="w-full flex justify-center h-svh">
-          <div className="bg-[#01161e] w-full ">{children}</div>
-        </div>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex flex-col w-full">
+        <Header />
+        <div className="flex justify-center w-full">{children}</div>
       </div>
     </div>
   );
