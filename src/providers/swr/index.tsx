@@ -8,7 +8,7 @@ const SWRProvider = ({ children }: { children: ReactNode }) => {
     <SWRConfig
       value={{
         onError(err) {
-          toast.error(`Error while fetching, ${err}`, {
+          toast.error(`${err}`, {
             position: "top-right",
             duration: 3000,
           });
