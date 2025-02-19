@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroui/avatar": "^2.2.7",
     "@heroui/button": "2.2.9",
+    "@heroui/checkbox": "^2.3.9",
     "@heroui/code": "2.2.6",
     "@heroui/dropdown": "2.3.9",
     "@heroui/input": "2.4.9",
@@ -25,6 +26,7 @@
     "@heroui/theme": "2.4.5",
     "@react-aria/visually-hidden": "3.8.12",
     "@react-types/shared": "3.26.0",
+    "@uidotdev/usehooks": "^2.4.1",
     "clsx": "2.1.1",
     "framer-motion": "11.15.0",
     "jwt-decode": "^4.0.0",

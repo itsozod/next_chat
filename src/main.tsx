@@ -5,16 +5,17 @@ import { BrowserRouter } from "react-router-dom";
 import SWRProvider from "./providers/swr/index.tsx";
 import { Toaster } from "react-hot-toast";
 import { HeroUIProvider } from "@heroui/system";
+import { ThemeProvider } from "./providers/theme/ThemeProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <HeroUIProvider>
-      <Toaster />
-      <SWRProvider>
-        <main className="purple-dark text-foreground bg-background">
+    <ThemeProvider defaultTheme="dark">
+      <HeroUIProvider>
+        <Toaster />
+        <SWRProvider>
           <App />
-        </main>
-      </SWRProvider>
-    </HeroUIProvider>
+        </SWRProvider>
+      </HeroUIProvider>
+    </ThemeProvider>
   </BrowserRouter>
 );

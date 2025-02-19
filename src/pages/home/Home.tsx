@@ -66,7 +66,6 @@ const Home = () => {
 
     socket.onerror = (error) => {
       console.error("WebSocket error:", error);
-      toast.error("Not connected, please wait a little bit");
     };
 
     socket.onclose = () => {
@@ -78,14 +77,8 @@ const Home = () => {
     };
   }, [data, search]);
 
-  useEffect(() => {
-    if (search.get("room_id")) {
-      mutate();
-    }
-  }, [search]);
-
   return (
-    <div className="flex justify-start p-2 gap-4 flex-col items-center h-svh">
+    <div className="w-full flex justify-start flex-col items-center">
       {search.get("room_id") ? (
         <>
           <ChatContainer>
@@ -97,10 +90,11 @@ const Home = () => {
             <ChatMessages id={data?.data?.id} />
             <div ref={bottomRef}></div>
           </ChatContainer>
+
           <MessageInput scrollToBottom={scrollToBottom} />
         </>
       ) : (
-        <div className="text-white">No messages yet, start a chat</div>
+        <div className="text-color">No messages yet, start a chat</div>
       )}
     </div>
   );

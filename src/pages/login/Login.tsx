@@ -9,6 +9,7 @@ import { IconEye } from "../../assets/icons/Eye";
 import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
+import toast from "react-hot-toast";
 const Login = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -29,6 +30,10 @@ const Login = () => {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.username.trim() === "" || formData.password.trim() === "") {
+      toast.error("Please enter username and password!");
+      return;
+    }
     await login(formData);
   };
 
@@ -43,7 +48,7 @@ const Login = () => {
     <>
       <div className="bg-[#202020] h-[100vh]">
         <div className="flex justify-center items-center flex-col h-svh g-10">
-          <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-primary-300">
+          <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-primary">
             <div className="flex items-center flex-col gap-2">
               <h1
                 style={{
@@ -96,6 +101,9 @@ const Login = () => {
                   }
                 />
                 <Button
+                color="primary"
+                  className="text-color"
+                  variant="shadow"
                   isLoading={isMutating}
                   type="submit"
                 >
@@ -105,7 +113,7 @@ const Login = () => {
             </form>
             <div className="flex items-center justify-center gap-1">
               <div className="text-white">Don't have an account?</div>
-              <Link to={"/signup"} className="text-primary-300">
+              <Link to={"/signup"} className="text-primary">
                 Sign Up
               </Link>
             </div>

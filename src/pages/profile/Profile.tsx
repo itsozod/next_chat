@@ -1,7 +1,7 @@
 import { IconEye } from "@/assets/icons/Eye";
 import { IconEyeInvisible } from "@/assets/icons/EyeSlash";
 import PasswordIcon from "@/assets/icons/PasswordIcon";
-import { profileFetcher } from "@/components/header/Header";
+import { profileFetcher } from "@/providers/swr/fetcher";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
@@ -83,84 +83,86 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <div className="flex p-3 justify-center items-center flex-col h-svh g-10">
-        <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-primary-300 flex flex-col gap-5">
-          <h1 className="text-white text-[1.3rem]">Profile picture</h1>
-          <div className="w-full flex justify-between items-center">
-            {avatar ? (
-              <img className="rounded-[50%]" width={50} height={50} src={avatar}></img>
-            ) : (
-              <Avatar src={avatar} />
-            )}
-            <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer text-black">
-              Choose picture
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleChangeImg}
-                accept=".jpg, .jpeg, .png"
+    <div className="w-full flex p-3 flex-col items-center h-svh g-10">
+      <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-primary-300 flex flex-col gap-5">
+        <h1 className="text-white text-[1.3rem]">Profile picture</h1>
+        <div className="flex justify-between items-center">
+          {avatar ? (
+            <img
+              className="rounded-[50%]"
+              width={50}
+              height={50}
+              src={avatar}
+            ></img>
+          ) : (
+            <Avatar src={avatar} />
+          )}
+          <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer text-black">
+            Choose picture
+            <input
+              type="file"
+              className="hidden"
+              onChange={handleChangeImg}
+              accept=".jpg, .jpeg, .png"
+            />
+          </label>
+        </div>
+        <div>
+          <h1 className="text-white text-[1.3rem]">Password</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-10 m-3">
+              <Input
+                startContent={<PasswordIcon />}
+                classNames={{
+                  inputWrapper: ["bg-[#292929]"],
+                }}
+                name="old_password"
+                value={formData.old_password}
+                placeholder="Enter your old password"
+                type={isVisible ? "text" : "password"}
+                onChange={handleChange}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                    aria-label="toggle password visibility"
+                  >
+                    {isVisible ? <IconEye /> : <IconEyeInvisible />}
+                  </button>
+                }
               />
-            </label>
-          </div>
-          <div>
-            <h1 className="text-white text-[1.3rem]">Password</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-10 m-3">
-                <Input
-                  startContent={<PasswordIcon />}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
-                  name="old_password"
-                  value={formData.old_password}
-                  placeholder="Enter your old password"
-                  type={isVisible ? "text" : "password"}
-                  onChange={handleChange}
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
-                      aria-label="toggle password visibility"
-                    >
-                      {isVisible ? <IconEye /> : <IconEyeInvisible />}
-                    </button>
-                  }
-                />
-                <Input
-                  startContent={<PasswordIcon />}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
-                  name="new_password"
-                  value={formData.new_password}
-                  placeholder="Enter your new password"
-                  type={isVisible ? "text" : "password"}
-                  onChange={handleChange}
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
-                      aria-label="toggle password visibility"
-                    >
-                      {isVisible ? <IconEye /> : <IconEyeInvisible />}
-                    </button>
-                  }
-                />
-                <Button
-                  color="primary"
-                  variant="solid"
-                  isLoading={isMutating}
-                  type="submit"
-                  // className="bg-[red] text-[white]"
-                >
-                  Submit
-                </Button>
-              </div>
-            </form>
-          </div>
+              <Input
+                startContent={<PasswordIcon />}
+                classNames={{
+                  inputWrapper: ["bg-[#292929]"],
+                }}
+                name="new_password"
+                value={formData.new_password}
+                placeholder="Enter your new password"
+                type={isVisible ? "text" : "password"}
+                onChange={handleChange}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                    aria-label="toggle password visibility"
+                  >
+                    {isVisible ? <IconEye /> : <IconEyeInvisible />}
+                  </button>
+                }
+              />
+              <Button
+                color="primary"
+                variant="solid"
+                isLoading={isMutating}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

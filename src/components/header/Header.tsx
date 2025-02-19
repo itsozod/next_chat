@@ -17,8 +17,9 @@ import { Avatar } from "@heroui/avatar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Button } from "@heroui/button";
+import { profileFetcher } from "@/providers/swr/fetcher";
 
 const menuItems = [
   {
@@ -31,43 +32,17 @@ const menuItems = [
   },
 ];
 
-export const profileFetcher = async (
-  url: string,
-  options: RequestInit = {}
-) => {
-  const { getToken } = tokenInstance;
-  const headers = {
-    Authorization: `Bearer ${getToken()}`,
-  };
-  const response = await fetch(import.meta.env.VITE_BASE_URL + url, {
-    ...options,
-    headers,
-    cache: "no-store",
-  });
-
-  if (response.status === 401) {
-    window.location.href = "/signin";
-  }
-
-  if (!response.ok) {
-    const errorResp = await response.json();
-    throw new Error(`${errorResp.error || response.statusText}`);
-  }
-  const data = await response.blob();
-  const img = URL.createObjectURL(data);
-  return img;
-};
-
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = useSWR("/user/me");
   const { data: avatar } = useSWR("/user/get-avatar", profileFetcher);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const clearCache = () => mutate(() => true, undefined, { revalidate: false });
 
   return (
     <Navbar
-      className="shadow-lg"
+      className="w-full shadow-lg"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={(state) => setIsMenuOpen(state)}
     >
@@ -95,7 +70,7 @@ const Header = () => {
         {menuItems?.map((item) => (
           <NavbarItem>
             <Link
-              className={`${item.path === location.pathname ? "text-primary-500" : "text-primary"}`}
+              className={`${item.path === location.pathname ? "text-primary" : "text-color"}`}
               to={item.path}
             >
               {item.title}
@@ -141,7 +116,9 @@ const Header = () => {
             </DropdownItem>
             <DropdownItem
               onPress={() => {
-                tokenInstance.clearToken(), navigate("/signin");
+                tokenInstance.clearToken();
+                navigate("/signin");
+                clearCache();
               }}
               key="logout"
               color="danger"
@@ -158,7 +135,7 @@ const Header = () => {
             key={item.path}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Link className="w-full text-white" to={item.path}>
+            <Link className="w-full text-color" to={item.path}>
               {item.title}
             </Link>
           </NavbarMenuItem>

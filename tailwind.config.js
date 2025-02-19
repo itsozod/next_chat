@@ -1,7 +1,7 @@
 import { heroui } from "@heroui/theme";
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./index.html",
     "./src/layouts/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,6 +14,7 @@ module.exports = {
     extend: {
       colors: {
         background: "hsl(var(--background))",
+        color: "hsl(var(--text-color))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

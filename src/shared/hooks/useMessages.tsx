@@ -1,7 +1,8 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWRInfinite from "swr/infinite";
 import { RoomMessagesData } from "../types";
 const useMessages = () => {
+  const navigate = useNavigate();
   const [search] = useSearchParams();
   const getKey = (pageIndex: number, previousPageData: RoomMessagesData) => {
     pageIndex = pageIndex + 1;
@@ -34,6 +35,14 @@ const useMessages = () => {
 
   const isLastPage = messages.length >= roomsMessages?.[0]?.data?.total_count;
 
+  const handleRoomClick = (roomId: number) => {
+    navigate(`/?room_id=${roomId}`);
+    setSize(1);
+    setTimeout(() => {
+      mutate();
+    }, 1000);
+  };
+
   return {
     messages,
     size,
@@ -42,6 +51,7 @@ const useMessages = () => {
     isValidating,
     isLastPage,
     mutate,
+    handleRoomClick,
   };
 };
 
