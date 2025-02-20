@@ -7,6 +7,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/navbar";
+import { Switch } from "@heroui/switch";
 import {
   Dropdown,
   DropdownItem,
@@ -20,6 +21,9 @@ import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import useSWR, { mutate } from "swr";
 import { Button } from "@heroui/button";
 import { profileFetcher } from "@/providers/swr/fetcher";
+import { SunIcon } from "@/shared/assets/icons/sunIcon";
+import { MoonIcon } from "@/shared/assets/icons/moonIcon";
+import { useTheme } from "@/providers/theme/ThemeProvider";
 
 const menuItems = [
   {
@@ -33,6 +37,7 @@ const menuItems = [
 ];
 
 const Header = () => {
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = useSWR("/user/me");
@@ -42,7 +47,7 @@ const Header = () => {
 
   return (
     <Navbar
-      className="w-full shadow-lg"
+      className="w-full dark:bg-[#231942] shadow-lg"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={(state) => setIsMenuOpen(state)}
     >
@@ -52,17 +57,7 @@ const Header = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p
-            style={{
-              fontFamily: "Playwrite IE, cursive",
-              fontOpticalSizing: "auto",
-              fontWeight: "bolder",
-              fontStyle: "normal",
-            }}
-            className="font-bold text-primary text-2xl"
-          >
-            next chat
-          </p>
+          <p className="fancy-text font-bold text-color text-2xl">next chat</p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -128,6 +123,20 @@ const Header = () => {
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
+        <Switch
+          defaultSelected
+          isSelected={theme === "light"}
+          color="secondary"
+          size="lg"
+          onValueChange={(e) => (e ? setTheme("light") : setTheme("dark"))}
+          thumbIcon={({ isSelected, className }) =>
+            isSelected ? (
+              <SunIcon className={className} />
+            ) : (
+              <MoonIcon className={className} />
+            )
+          }
+        ></Switch>
       </NavbarContent>
       <NavbarMenu>
         {menuItems.map((item) => (

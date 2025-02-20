@@ -46,24 +46,13 @@ const Login = () => {
 
   return (
     <>
-      <div className="bg-[#202020] h-[100vh]">
+      <div className="h-[100vh]">
         <div className="flex justify-center items-center flex-col h-svh g-10">
           <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-primary">
             <div className="flex items-center flex-col gap-2">
-              <h1
-                style={{
-                  fontFamily: "Playwrite IE, cursive",
-                  fontOpticalSizing: "auto",
-                  fontWeight: "bolder",
-                  fontStyle: "normal",
-                }}
-                className="text-[#f4f4f4] text-3xl"
-              >
-                next chat
-              </h1>
+              <h1 className="fancy-text text-color text-3xl">next chat</h1>
               <p className="text-[#7B7B7B]">Please Sign In to your account</p>
             </div>
-
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-10 m-3">
                 <Input
@@ -72,18 +61,12 @@ const Login = () => {
                   onClear={() => setFormData({ ...formData, username: "" })}
                   name="username"
                   value={formData.username}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
                   placeholder="Enter Your Name"
                   onChange={handleChange}
                 />
 
                 <Input
                   startContent={<PasswordIcon />}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
                   name="password"
                   value={formData.password}
                   placeholder="Enter Your password"
@@ -101,8 +84,8 @@ const Login = () => {
                   }
                 />
                 <Button
-                color="primary"
-                  className="text-color"
+                  color="primary"
+                  className="text-white"
                   variant="shadow"
                   isLoading={isMutating}
                   type="submit"
@@ -112,7 +95,7 @@ const Login = () => {
               </div>
             </form>
             <div className="flex items-center justify-center gap-1">
-              <div className="text-white">Don't have an account?</div>
+              <div className="text-color">Don't have an account?</div>
               <Link to={"/signup"} className="text-primary">
                 Sign Up
               </Link>

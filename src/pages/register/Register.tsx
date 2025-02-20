@@ -51,21 +51,11 @@ const Register = () => {
 
   return (
     <>
-      <div className="bg-[#202020] h-[100vh]">
+      <div className="h-[100vh]">
         <div className="flex justify-center items-center flex-col h-svh g-10">
           <div className="w-[100%] max-w-[300px] p-5 rounded-md border border-primary">
             <div className="flex items-center flex-col gap-2">
-              <h1
-                style={{
-                  fontFamily: "Playwrite IE, cursive",
-                  fontOpticalSizing: "auto",
-                  fontWeight: "bold",
-                  fontStyle: "normal",
-                }}
-                className="text-[#f4f4f4] text-3xl"
-              >
-                next chat
-              </h1>
+              <h1 className="fancy-text text-color text-3xl">next chat</h1>
               <p className="text-[#7B7B7B]">Please Sign In to your account</p>
             </div>
 
@@ -77,9 +67,6 @@ const Register = () => {
                   name="username"
                   value={formData.username}
                   type="text"
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
                   onChange={handleChange}
                   placeholder="Enter Your Name"
                 />
@@ -89,17 +76,11 @@ const Register = () => {
                   name="fullname"
                   onChange={handleChange}
                   value={formData.fullname}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
                   placeholder="Enter Your Fullname"
                 />
 
                 <Input
                   startContent={<PasswordIcon />}
-                  classNames={{
-                    inputWrapper: ["bg-[#292929]"],
-                  }}
                   name="password"
                   value={formData.password}
                   placeholder="Enter Your password"
@@ -117,7 +98,7 @@ const Register = () => {
                   }
                 />
                 <Button
-                  className="text-color"
+                  className="text-white"
                   color="primary"
                   variant="shadow"
                   isLoading={isMutating}
@@ -128,7 +109,7 @@ const Register = () => {
               </div>
             </form>
             <div className="flex items-center justify-center gap-1">
-              <div className="text-white">Already have an account?</div>
+              <div className="text-color">Already have an account?</div>
               <Link to={"/signin"} className="text-primary">
                 Sign In
               </Link>

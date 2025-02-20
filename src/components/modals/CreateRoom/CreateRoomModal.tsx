@@ -98,7 +98,7 @@ const CreateRoomModal = () => {
       <div className="flex justify-center p-3">
         <Button
           onPress={onOpen}
-          className="text-color" 
+          className="text-white" 
           color="primary"
           fullWidth
           isIconOnly={isMediumDevice}

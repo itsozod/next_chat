@@ -8,6 +8,14 @@
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
+.fancy-text {
+  font-family:
+    Playwrite IE,
+    cursive;
+  font-optical-sizing: auto;
+  font-weight: bolder;
+  font-style: normal;
+}
 
 @keyframes rotation {
   0% {

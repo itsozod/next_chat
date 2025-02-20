@@ -12,7 +12,6 @@ import useSWRMutation from "swr/mutation";
 
 const Profile = () => {
   const { data: avatar, mutate } = useSWR("/user/get-avatar", profileFetcher);
-
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -84,8 +83,8 @@ const Profile = () => {
 
   return (
     <div className="w-full flex p-3 flex-col items-center h-svh g-10">
-      <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-primary-300 flex flex-col gap-5">
-        <h1 className="text-white text-[1.3rem]">Profile picture</h1>
+      <div className="w-[100%] max-w-[600px] p-5 rounded-md border border-primary flex flex-col gap-5">
+        <h1 className="text-color text-[1.3rem]">Profile picture</h1>
         <div className="flex justify-between items-center">
           {avatar ? (
             <img
@@ -97,7 +96,7 @@ const Profile = () => {
           ) : (
             <Avatar src={avatar} />
           )}
-          <label className="bg-[#F7F7F7] p-2 rounded-md cursor-pointer text-black">
+          <label className="bg-primary p-2 rounded-md cursor-pointer text-white">
             Choose picture
             <input
               type="file"
@@ -108,14 +107,11 @@ const Profile = () => {
           </label>
         </div>
         <div>
-          <h1 className="text-white text-[1.3rem]">Password</h1>
+          <h1 className="text-color text-[1.3rem]">Password</h1>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-10 m-3">
               <Input
                 startContent={<PasswordIcon />}
-                classNames={{
-                  inputWrapper: ["bg-[#292929]"],
-                }}
                 name="old_password"
                 value={formData.old_password}
                 placeholder="Enter your old password"
@@ -134,9 +130,6 @@ const Profile = () => {
               />
               <Input
                 startContent={<PasswordIcon />}
-                classNames={{
-                  inputWrapper: ["bg-[#292929]"],
-                }}
                 name="new_password"
                 value={formData.new_password}
                 placeholder="Enter your new password"
@@ -154,8 +147,9 @@ const Profile = () => {
                 }
               />
               <Button
+                className="text-white"
                 color="primary"
-                variant="solid"
+                variant="shadow"
                 isLoading={isMutating}
                 type="submit"
               >

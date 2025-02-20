@@ -90,7 +90,6 @@ const Home = () => {
             <ChatMessages id={data?.data?.id} />
             <div ref={bottomRef}></div>
           </ChatContainer>
-
           <MessageInput scrollToBottom={scrollToBottom} />
         </>
       ) : (
