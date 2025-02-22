@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@heroui/modal";
 import { Button } from "@heroui/button";
-import UserIcon from "@/assets/icons/UserIcon";
+import UserIcon from "@/shared/assets/icons/UserIcon";
 import { Input } from "@heroui/input";
 import useSWR from "swr";
 import { Avatar } from "@heroui/avatar";
@@ -17,28 +17,17 @@ import Loader from "@/shared/ui/loader/Loader";
 import { DeleteUserIcon } from "@/shared/assets/icons/deleteUserIcon";
 import useSWRMutation from "swr/mutation";
 import { addContact, deleteContact } from "@/shared/api/contact/contact";
-
-type User = {
-  id: number;
-  fullname: string;
-  username: string;
-};
-type UserResp = {
-  data: User[];
-};
-export type Contact = {
-  id: number;
-  username: string;
-  fullname: string;
-};
+import AddContactModal from "./AddContactModal/AddContactModal";
+import DeleteContactModal from "./DeleteContactModal/DeleteContactModal";
+import * as I from "@/shared/types";
 
 export default function Contacts() {
   const [searchValue, setSearchValue] = useState("");
-  const { data: users } = useSWR<UserResp>(
+  const { data: users } = useSWR<I.UserResp>(
     searchValue ? `/user/search?username=${searchValue}` : null
   );
-  const { data: contacts, isLoading } = useSWR("/contact");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { data: contacts, isLoading } = useSWR("/contact");
   const [isAddContact, setIsAddContact] = useState(false);
   const [isDeleteContact, setIsDeleteContact] = useState(false);
   const [contactId, setContactId] = useState<number | string>("");
@@ -53,7 +42,7 @@ export default function Contacts() {
     return users?.data?.map((user) => {
       return (
         <div
-          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary-200"
+          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary"
           key={user?.id}
         >
           <div className="flex gap-2 items-center">
@@ -78,10 +67,10 @@ export default function Contacts() {
   }, [users]);
 
   const contactsParser = useMemo(() => {
-    return contacts?.data?.map((contact: Contact) => {
+    return contacts?.data?.map((contact: I.Contact) => {
       return (
         <div
-          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary-200"
+          className="flex gap-3 items-center text-color justify-between p-2 rounded-md hover:bg-primary hover:text-white"
           key={contact?.id}
         >
           <div className="flex gap-5 items-center">
@@ -146,72 +135,22 @@ export default function Contacts() {
           )}
         </ModalContent>
       </Modal>
-      <Modal
-        className="bg-slate-900 text-white"
-        isOpen={isAddContact}
-        onOpenChange={setIsAddContact}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1 mt-4">
-                Add to contacts
-              </ModalHeader>
-              <ModalBody className="text-[1.1rem]">
-                Are you sure, you want to add this user to your contacts?
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  isLoading={isAddContactMutating}
-                  onPress={async () => {
-                    await addToContacts({ contact_id: contactId });
-                    onClose();
-                  }}
-                >
-                  Ok
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-      <Modal
-        className="bg-slate-900 text-white"
-        isOpen={isDeleteContact}
-        onOpenChange={setIsDeleteContact}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1 mt-4">
-                Delete from contacts
-              </ModalHeader>
-              <ModalBody className="text-[1.1rem]">
-                Are you sure, you want to delete this user from your contacts?
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  isLoading={isDeleteContactMutating}
-                  onPress={async () => {
-                    await deleteFromContacts({ contact_id: contactId });
-                    onClose();
-                  }}
-                >
-                  Ok
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      <AddContactModal
+        isAddContact={isAddContact}
+        setIsAddContact={setIsAddContact}
+        isAddContactMutating={isAddContactMutating}
+        onPress={async () => {
+          await addToContacts({ contact_id: contactId });
+        }}
+      />
+      <DeleteContactModal
+        isDeleteContact={isDeleteContact}
+        setIsDeleteContact={setIsDeleteContact}
+        isDeleteContactMutating={isDeleteContactMutating}
+        onPress={async () => {
+          await deleteFromContacts({ contact_id: contactId });
+        }}
+      />
     </div>
   );
 }

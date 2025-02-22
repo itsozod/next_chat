@@ -142,6 +142,7 @@ const CreateRoomModal = () => {
                   Close
                 </Button>
                 <Button
+                className="text-white"
                   color="primary"
                   isLoading={isMutating}
                   onPress={handleCreateRoom}

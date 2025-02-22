@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import PasswordIcon from "../../assets/icons/PasswordIcon";
+import PasswordIcon from "../../shared/assets/icons/PasswordIcon";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { ChangeEvent, useEffect, useState } from "react";
-import UserIcon from "../../assets/icons/UserIcon";
+import UserIcon from "../../shared/assets/icons/UserIcon";
 import useSWRMutation from "swr/mutation";
-import { IconEye } from "../../assets/icons/Eye";
-import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
+import { IconEye } from "../../shared/assets/icons/Eye";
+import { IconEyeInvisible } from "../../shared/assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
 import toast from "react-hot-toast";

@@ -1,6 +1,6 @@
-import { IconEye } from "@/assets/icons/Eye";
-import { IconEyeInvisible } from "@/assets/icons/EyeSlash";
-import PasswordIcon from "@/assets/icons/PasswordIcon";
+import { IconEye } from "@/shared/assets/icons/Eye";
+import { IconEyeInvisible } from "@/shared/assets/icons/EyeSlash";
+import PasswordIcon from "@/shared/assets/icons/PasswordIcon";
 import { profileFetcher } from "@/providers/swr/fetcher";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { Avatar } from "@heroui/avatar";

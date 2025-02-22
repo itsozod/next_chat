@@ -1,16 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
-import Wrapper from "../wrapper/Wrapper";
+import Layout from "@/widgets/layout/Layout";
 
 const ProtectedRoutes = () => {
   const { getToken } = tokenInstance;
-  return getToken() ? (
-    <Wrapper>
-      <Outlet />
-    </Wrapper>
-  ) : (
-    <Navigate to={"/signin"} replace />
-  );
+  return getToken() ? <Layout /> : <Navigate to={"/signin"} replace />;
 };
 
 export default ProtectedRoutes;

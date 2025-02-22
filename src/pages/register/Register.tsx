@@ -1,11 +1,11 @@
-import EmailIcon from "../../assets/icons/EmailIcon";
-import PasswordIcon from "../../assets/icons/PasswordIcon";
-import UserIcon from "../../assets/icons/UserIcon";
+import EmailIcon from "../../shared/assets/icons/EmailIcon";
+import PasswordIcon from "../../shared/assets/icons/PasswordIcon";
+import UserIcon from "../../shared/assets/icons/UserIcon";
 import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
-import { IconEye } from "../../assets/icons/Eye";
-import { IconEyeInvisible } from "../../assets/icons/EyeSlash";
+import { IconEye } from "../../shared/assets/icons/Eye";
+import { IconEyeInvisible } from "../../shared/assets/icons/EyeSlash";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { signUp } from "@/shared/api/auth/signup/signup";

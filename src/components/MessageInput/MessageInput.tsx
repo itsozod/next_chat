@@ -1,4 +1,4 @@
-import SendIcon from "@/assets/icons/SendIcon";
+import SendIcon from "@/shared/assets/icons/SendIcon";
 import { useSocketStore } from "@/shared/store/socket.store";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { Button } from "@heroui/button";
