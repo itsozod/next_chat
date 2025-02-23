@@ -42,7 +42,7 @@ export default function Contacts() {
     return users?.data?.map((user) => {
       return (
         <div
-          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary"
+          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary hover:text-white"
           key={user?.id}
         >
           <div className="flex gap-2 items-center">
@@ -70,7 +70,7 @@ export default function Contacts() {
     return contacts?.data?.map((contact: I.Contact) => {
       return (
         <div
-          className="flex gap-3 items-center text-color justify-between p-2 rounded-md hover:bg-primary hover:text-white"
+          className="flex gap-3 items-center text-color justify-between p-2 rounded-md hover:bg-primary hover:text-white" 
           key={contact?.id}
         >
           <div className="flex gap-5 items-center">
