@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
-import Layout from "@/widgets/layout/Layout";
+import Layout from "@/components/layout/Layout";
+
 
 const ProtectedRoutes = () => {
   const { getToken } = tokenInstance;

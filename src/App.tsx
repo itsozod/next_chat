@@ -1,11 +1,11 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
 import ProtectedRoutes from "./components/protectedRoute/ProtectedRoutes";
-import Profile from "./pages/profile/Profile";
-import Contacts from "./pages/contacts/Contacts";
+import Home from "@/pages/home/Home";
+import Contacts from "@/pages/contacts/Contacts";
+import Profile from "@/pages/profile/Profile";
+import Login from "@/pages/login/Login";
+import Register from "@/pages/register/Register";
 
 function App() {
   return (

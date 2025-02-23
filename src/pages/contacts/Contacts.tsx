@@ -11,87 +11,56 @@ import { Button } from "@heroui/button";
 import UserIcon from "@/shared/assets/icons/UserIcon";
 import { Input } from "@heroui/input";
 import useSWR from "swr";
-import { Avatar } from "@heroui/avatar";
-import { AddContact } from "@/shared/assets/icons/addContact";
 import Loader from "@/shared/ui/loader/Loader";
-import { DeleteUserIcon } from "@/shared/assets/icons/deleteUserIcon";
 import useSWRMutation from "swr/mutation";
 import { addContact, deleteContact } from "@/shared/api/contact/contact";
 import AddContactModal from "./AddContactModal/AddContactModal";
 import DeleteContactModal from "./DeleteContactModal/DeleteContactModal";
 import * as I from "@/shared/types";
+import ContactData from "@/pages/contacts/ContactData";
+import UserData from "@/pages/contacts/UserData";
 
 export default function Contacts() {
   const [searchValue, setSearchValue] = useState("");
+  const { data: contacts, isLoading } = useSWR<I.ContactResp>("/contact");
   const { data: users } = useSWR<I.UserResp>(
     searchValue ? `/user/search?username=${searchValue}` : null
   );
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data: contacts, isLoading } = useSWR("/contact");
-  const [isAddContact, setIsAddContact] = useState(false);
-  const [isDeleteContact, setIsDeleteContact] = useState(false);
-  const [contactId, setContactId] = useState<number | string>("");
   const { isMutating: isAddContactMutating, trigger: addToContacts } =
     useSWRMutation("/contact", addContact);
   const { isMutating: isDeleteContactMutating, trigger: deleteFromContacts } =
     useSWRMutation("/contact", deleteContact);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [isAddContact, setIsAddContact] = useState(false);
+  const [isDeleteContact, setIsDeleteContact] = useState(false);
+  const [contactId, setContactId] = useState<number | string>("");
+
+  const deleteContactData = (id: number) => {
+    setIsDeleteContact(true);
+    setContactId(id);
+  };
+  const addContactData = (id: number) => {
+    setIsAddContact(true);
+    setContactId(id);
+  };
 
   const userParser = useMemo(() => {
     if (!users?.data?.length)
       return <div className="text-center text-white">No recent searches</div>;
     return users?.data?.map((user) => {
       return (
-        <div
-          className="flex gap-3 items-center text-white justify-between p-2 rounded-md hover:bg-primary hover:text-white"
-          key={user?.id}
-        >
-          <div className="flex gap-2 items-center">
-            <Avatar />
-            <div className="flex flex-col gap-1">
-              <div>{user?.username}</div>
-              <div>{user?.fullname}</div>
-            </div>
-          </div>
-          <Button
-            isIconOnly
-            onPress={() => {
-              setIsAddContact(true);
-              setContactId(user.id);
-            }}
-          >
-            <AddContact />
-          </Button>
-        </div>
+        <UserData user={user} addContactData={() => addContactData(user.id)} />
       );
     });
   }, [users]);
 
   const contactsParser = useMemo(() => {
-    return contacts?.data?.map((contact: I.Contact) => {
+    return contacts?.data?.map((contact) => {
       return (
-        <div
-          className="flex gap-3 items-center text-color justify-between p-2 rounded-md hover:bg-primary hover:text-white" 
-          key={contact?.id}
-        >
-          <div className="flex gap-5 items-center">
-            <Button isIconOnly className="rounded-[50%]">
-              <UserIcon />
-            </Button>
-            <div className="flex flex-col gap-1">
-              <div>{contact?.username}</div>
-              <div>{contact?.fullname}</div>
-            </div>
-          </div>
-          <Button
-            isIconOnly
-            onPress={() => {
-              setIsDeleteContact(true);
-              setContactId(contact.id);
-            }}
-          >
-            <DeleteUserIcon />
-          </Button>
-        </div>
+        <ContactData
+          contact={contact}
+          deleteContactData={() => deleteContactData(contact.id)}
+        />
       );
     });
   }, [contacts]);
