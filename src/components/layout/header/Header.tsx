@@ -20,10 +20,10 @@ import { useState } from "react";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import useSWR, { mutate } from "swr";
 import { Button } from "@heroui/button";
-import { profileFetcher } from "@/providers/swr/fetcher";
 import { SunIcon } from "@/shared/assets/icons/sunIcon";
 import { MoonIcon } from "@/shared/assets/icons/moonIcon";
 import { useTheme } from "@/providers/theme/ThemeProvider";
+import { profileFetcher } from "@/providers/swr/profileFetcher";
 
 const menuItems = [
   {

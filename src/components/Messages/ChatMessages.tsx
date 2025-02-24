@@ -2,6 +2,7 @@ import useMessages from "@/shared/hooks/useMessages";
 import { useMemo } from "react";
 import * as I from "@/shared/types";
 import { GlowingStar } from "@/shared/assets/icons/starIcon";
+
 const ChatMessages = ({ id }: { id: number }) => {
   const { messages } = useMessages();
   const messageParser = useMemo(() => {

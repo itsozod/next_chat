@@ -1,17 +1,21 @@
 import { IconEye } from "@/shared/assets/icons/Eye";
 import { IconEyeInvisible } from "@/shared/assets/icons/EyeSlash";
 import PasswordIcon from "@/shared/assets/icons/PasswordIcon";
-import { profileFetcher } from "@/providers/swr/fetcher";
-import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { ChangeEvent, useState } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { changePassword, handleUpload } from "@/shared/api/password/password";
+import { profileFetcher } from "@/providers/swr/profileFetcher";
 
 const Profile = () => {
   const { data: avatar, mutate } = useSWR("/user/get-avatar", profileFetcher);
+  const { isMutating, trigger: change } = useSWRMutation(
+    "/auth/change-password",
+    changePassword
+  );
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -23,50 +27,9 @@ const Profile = () => {
   };
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const changePassword = async (
-    url: string,
-    { arg }: { arg: { old_password: string; new_password: string } }
-  ) => {
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${tokenInstance.getToken()}`,
-        },
-        body: JSON.stringify(arg),
-      });
-      const data = await res.json();
-
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const { isMutating, trigger: change } = useSWRMutation(
-    "/auth/change-password",
-    changePassword
-  );
-
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     await change(formData);
-  };
-
-  const handleUpload = async (formData: FormData) => {
-    try {
-      const res = await fetch("http://5.253.62.94:8084/user/set-avatar", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${tokenInstance.getToken()}`,
-        },
-        body: formData,
-      });
-      const data = await res.json();
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const handleChangeImg = async (e: ChangeEvent<HTMLInputElement>) => {

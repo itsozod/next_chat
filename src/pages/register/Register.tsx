@@ -12,6 +12,11 @@ import { signUp } from "@/shared/api/auth/signup/signup";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const {
+    data,
+    isMutating,
+    trigger: register,
+  } = useSWRMutation("/auth/sign-up", signUp);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [formData, setFormData] = useState({
@@ -23,12 +28,6 @@ const Register = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const {
-    data,
-    isMutating,
-    trigger: register,
-  } = useSWRMutation("/auth/sign-up", signUp);
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -11,6 +11,11 @@ import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
 import toast from "react-hot-toast";
 const Login = () => {
+  const {
+    data,
+    isMutating,
+    trigger: login,
+  } = useSWRMutation("/auth/sign-in", signIn);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -18,11 +23,6 @@ const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const navigate = useNavigate();
-  const {
-    data,
-    isMutating,
-    trigger: login,
-  } = useSWRMutation("/auth/sign-in", signIn);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

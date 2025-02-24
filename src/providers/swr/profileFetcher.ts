@@ -1,6 +1,9 @@
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 
-export const fetcher = async (url: string, options: RequestInit = {}) => {
+export const profileFetcher = async (
+  url: string,
+  options: RequestInit = {}
+) => {
   const { getToken } = tokenInstance;
   const headers = {
     Authorization: `Bearer ${getToken()}`,
@@ -8,6 +11,7 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
   const response = await fetch(import.meta.env.VITE_BASE_URL + url, {
     ...options,
     headers,
+    cache: "no-store",
   });
 
   if (response.status === 401) {
@@ -18,5 +22,7 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
     const errorResp = await response.json();
     throw new Error(`${errorResp.error || response.statusText}`);
   }
-  return await response.json();
+  const data = await response.blob();
+  const img = URL.createObjectURL(data);
+  return img;
 };

@@ -1,7 +1,7 @@
-import { fetcher } from "@/providers/swr/fetcher";
+import { authFetcher } from "@/providers/swr/authFetcher";
 
 export const signUp = async (url: string, { arg = {} }) => {
-  const res = await fetcher(url, {
+  const res = await authFetcher(url, {
     method: "POST",
     body: JSON.stringify(arg),
   });
