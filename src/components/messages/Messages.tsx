@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import * as I from "@/shared/types";
 import { GlowingStar } from "@/shared/assets/icons/starIcon";
 
-const ChatMessages = ({ id }: { id: number }) => {
+const Messages = ({ id }: { id: number }) => {
   const { messages } = useMessages();
   const messageParser = useMemo(() => {
     return messages
@@ -37,4 +37,4 @@ const ChatMessages = ({ id }: { id: number }) => {
   return <>{messageParser}</>;
 };
 
-export default ChatMessages;
+export default Messages;
