@@ -14,11 +14,11 @@ import useSWR from "swr";
 import Loader from "@/shared/ui/loader/Loader";
 import useSWRMutation from "swr/mutation";
 import { addContact, deleteContact } from "@/shared/api/contact/contact";
-import AddContactModal from "./AddContactModal/AddContactModal";
-import DeleteContactModal from "./DeleteContactModal/DeleteContactModal";
+import AddContactModal from "./ui/AddContactModal";
+import DeleteContactModal from "./ui/DeleteContactModal";
 import * as I from "@/shared/types";
-import ContactData from "@/pages/contacts/ContactData";
-import UserData from "@/pages/contacts/UserData";
+import ContactData from "@/pages/contacts/ui/ContactData";
+import UserData from "@/pages/contacts/ui/UserData";
 
 export default function Contacts() {
   const [searchValue, setSearchValue] = useState("");

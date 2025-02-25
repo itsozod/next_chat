@@ -3,10 +3,15 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/navbar";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+} from "@heroui/drawer";
 import { Switch } from "@heroui/switch";
 import {
   Dropdown,
@@ -35,6 +40,20 @@ const menuItems = [
     path: "/contacts",
   },
 ];
+const mobileMenuItems = [
+  {
+    title: "Home",
+    path: "/",
+  },
+  {
+    title: "Contacts",
+    path: "/contacts",
+  },
+  {
+    title: "Profile",
+    path: "/profile",
+  },
+];
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
@@ -54,6 +73,7 @@ const Header = () => {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          onChange={(e) => setIsMenuOpen(e)}
           className="sm:hidden"
         />
         <NavbarBrand>
@@ -138,18 +158,35 @@ const Header = () => {
           }
         ></Switch>
       </NavbarContent>
-      <NavbarMenu>
-        {menuItems.map((item) => (
-          <NavbarMenuItem
-            key={item.path}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <Link className="w-full text-color" to={item.path}>
-              {item.title}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
+      <Drawer
+        backdrop={"blur"}
+        isOpen={isMenuOpen}
+        onOpenChange={setIsMenuOpen}
+      >
+        <DrawerContent>
+          <DrawerHeader>
+            <p className="fancy-text font-bold text-color text-2xl">
+              next chat
+            </p>
+          </DrawerHeader>
+          <DrawerBody>
+            {mobileMenuItems.map((item) => (
+              <NavbarMenuItem
+                key={item.path}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="list-none"
+              >
+                <Link
+                  className={`w-full list-none ${item.path === location.pathname ? "text-primary" : "text-color"}`}
+                  to={item.path}
+                >
+                  {item.title}
+                </Link>
+              </NavbarMenuItem>
+            ))}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Navbar>
   );
 };

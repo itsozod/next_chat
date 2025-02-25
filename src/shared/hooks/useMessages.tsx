@@ -35,8 +35,8 @@ const useMessages = () => {
 
   const isLastPage = messages.length >= roomsMessages?.[0]?.data?.total_count;
 
-  const handleRoomClick = (roomId: number) => {
-    navigate(`/?room_id=${roomId}`);
+  const handleRoomClick = (roomId: number, roomName: string) => {
+    navigate(`/?room_id=${roomId}&room_name=${roomName}`);
     setSize(1);
     setTimeout(() => {
       mutate();

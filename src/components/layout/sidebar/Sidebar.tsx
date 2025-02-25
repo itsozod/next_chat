@@ -9,7 +9,7 @@ const Sidebar = () => {
   const { handleRoomClick } = useMessages();
 
   return (
-    <aside className="no-scrollbar sticky top-0 bottom-0 overflow-auto h-[100vh] w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
+    <aside className="no-scrollbar  sticky top-0 bottom-0 overflow-auto h-[100vh] w-20 lg:w-[400px] border-r border-base-300 flex flex-col transition-all duration-200">
       {isLoading ? (
         <div className="flex justify-start p-2">
           <Loader />

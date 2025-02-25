@@ -9,7 +9,7 @@ const Rooms = ({
   handleRoomClick,
 }: {
   rooms: I.Rooms;
-  handleRoomClick: (roomId: number) => void;
+  handleRoomClick: (roomId: number, roomName: string) => void;
 }) => {
   const [search] = useSearchParams();
   const isMediumDevice = useMediaQuery("only screen and (max-width: 1023px)");
@@ -21,7 +21,7 @@ const Rooms = ({
           key={room.id}
           onClick={() => {
             if (Number(search.get("room_id")) === room.id) return;
-            handleRoomClick(room.id);
+            handleRoomClick(room.id, room.name);
           }}
           className={`
       w-full h-full p-3 flex ${isMediumDevice ? "flex-col justify-start items-center" : "flex-row items-center gap-3"}

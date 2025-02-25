@@ -1,4 +1,4 @@
-import ChatMessages from "@/pages/home/ChatMessages";
+import ChatMessages from "@/pages/home/ui/ChatMessages";
 
 const Home = () => {
   return <ChatMessages />;

@@ -5,12 +5,14 @@ import toast from "react-hot-toast";
 import * as I from "@/shared/types";
 import useSWR from "swr";
 import useMessages from "./useMessages";
+import useScrollBottom from "@/shared/hooks/useScrollBottom";
 
-const useWebSockets = ({ scrollToBottom }: { scrollToBottom: () => void }) => {
+const useWebSockets = () => {
   const { data } = useSWR("/user/me");
   const [search] = useSearchParams();
   const { setSocket } = useSocketStore();
   const { mutate } = useMessages();
+  const { scrollToBottom } = useScrollBottom();
 
   useEffect(() => {
     if (!data || !search.get("room_id")) return;
