@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./sidebar/Sidebar";
 import Header from "./header/Header";
 import Content from "./content/Content";
-import ChatHeader from "@/components/chatHeader/ChatHeader";
+import ChatHeader from "@/components/layout/chatHeader/ChatHeader";
 
 const Layout = () => {
   return (

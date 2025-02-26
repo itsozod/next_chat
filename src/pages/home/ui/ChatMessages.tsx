@@ -1,7 +1,7 @@
 import ChatContainer from "@/components/chatContainer/ChatContainer";
 import MessageInput from "@/components/messageInput/MessageInput";
 import Messages from "@/components/messages/Messages";
-import Empty from "@/pages/home/ui/Empty";
+import NoChatSelected from "@/components/NoChatSelected/NoChatSelected";
 import TopLoader from "@/pages/home/ui/TopLoader";
 import useMessages from "@/shared/hooks/useMessages";
 import useScrollBottom from "@/shared/hooks/useScrollBottom";
@@ -17,7 +17,7 @@ const ChatMessages = () => {
 
   useWebSockets();
 
-  if (!search.get("room_id")) return <Empty />;
+  if (!search.get("room_id")) return <NoChatSelected />;
 
   return (
     <div className="w-full flex justify-between h-[100dvh] flex-col items-center bg-[#EDF2F7] dark:bg-black ">
