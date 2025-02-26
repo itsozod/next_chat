@@ -1,9 +1,11 @@
+import { refreshToken } from "@/providers/swr/fetcher";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
+import toast from "react-hot-toast";
 
 export const profileFetcher = async (
   url: string,
   options: RequestInit = {}
-) => {
+): Promise<any> => {
   const { getToken } = tokenInstance;
   const headers = {
     Authorization: `Bearer ${getToken()}`,
@@ -14,13 +16,27 @@ export const profileFetcher = async (
     cache: "no-store",
   });
 
+  const method = options.method || "GET";
+
   if (response.status === 401) {
-    window.location.href = "/signin";
+    const refreshed = await refreshToken();
+    if (refreshed) {
+      return profileFetcher(url);
+    } else {
+      throw new Error("Unauthorized");
+    }
   }
 
   if (!response.ok) {
-    const errorResp = await response.json();
-    throw new Error(`${errorResp.error || response.statusText}`);
+    toast.error(`${response.statusText}`, {
+      position: "top-right",
+      duration: 3000,
+    });
+  } else if (response.ok && method !== "GET") {
+    toast.success("Operation successful", {
+      position: "top-right",
+      duration: 3000,
+    });
   }
   const data = await response.blob();
   const img = URL.createObjectURL(data);

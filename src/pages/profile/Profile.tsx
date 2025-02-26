@@ -16,6 +16,10 @@ const Profile = () => {
     "/auth/change-password",
     changePassword
   );
+  const { trigger: uploadAvatar } = useSWRMutation(
+    "/user/set-avatar",
+    handleUpload
+  );
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -37,7 +41,7 @@ const Profile = () => {
       const file = e.target.files && e.target.files[0];
       const formData = new FormData();
       formData.append("avatar", file as File);
-      await handleUpload(formData);
+      await uploadAvatar(formData);
       await mutate();
     } catch (error) {
       console.error("Error converting file to base64:", error);
@@ -51,7 +55,7 @@ const Profile = () => {
         <div className="flex justify-between items-center">
           {avatar ? (
             <img
-              className="rounded-[50%]"
+              className="w-[50px] h-full rounded-[50%]"
               width={50}
               height={50}
               src={avatar}

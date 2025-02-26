@@ -1,5 +1,5 @@
 import { fetcher } from "@/providers/swr/fetcher";
-import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
+import { profileFetcher } from "@/providers/swr/profileFetcher";
 
 export const changePassword = async (url: string, { arg = {} }) => {
   const res = await fetcher(url, {
@@ -9,21 +9,10 @@ export const changePassword = async (url: string, { arg = {} }) => {
   return res;
 };
 
-export const handleUpload = async (formData: FormData) => {
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/user/set-avatar`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${tokenInstance.getToken()}`,
-        },
-        body: formData,
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (e) {
-    console.log(e);
-  }
+export const handleUpload = async (url: string, { arg = {} }) => {
+  const res = await profileFetcher(url, {
+    method: "POST",
+    body: arg as FormData,
+  });
+  return res;
 };

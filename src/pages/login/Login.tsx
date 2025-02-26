@@ -40,6 +40,7 @@ const Login = () => {
   useEffect(() => {
     if (data?.data?.access_token?.token) {
       tokenInstance.setToken(data?.data?.access_token?.token);
+      tokenInstance.setRefreshToken(data?.data?.refresh_token?.token);
       navigate("/");
     }
   }, [data]);

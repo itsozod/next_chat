@@ -102,7 +102,7 @@ const Header = () => {
                   width={50}
                   height={50}
                   src={avatar}
-                  className="w-full h-full rounded-[50%]"
+                  className="w-[30px] h-full rounded-[50%]"
                   alt=""
                 />
               </Button>
