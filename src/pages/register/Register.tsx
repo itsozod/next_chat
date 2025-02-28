@@ -2,7 +2,7 @@ import EmailIcon from "../../shared/assets/icons/EmailIcon";
 import PasswordIcon from "../../shared/assets/icons/PasswordIcon";
 import UserIcon from "../../shared/assets/icons/UserIcon";
 import { Link } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { IconEye } from "../../shared/assets/icons/Eye";
 import { IconEyeInvisible } from "../../shared/assets/icons/EyeSlash";
@@ -10,37 +10,31 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { signUp } from "@/shared/api/auth/signup/signup";
 import toast from "react-hot-toast";
+import { useFormik } from "formik";
+import { RegisterSchema } from "@/pages/register/registerSchema";
 
 const Register = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const {
     data,
     isMutating,
     trigger: register,
   } = useSWRMutation("/auth/sign-up", signUp);
-  const [isVisible, setIsVisible] = useState(false);
-  const toggleVisibility = () => setIsVisible(!isVisible);
-  const [formData, setFormData] = useState({
-    username: "",
-    fullname: "",
-    password: "",
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      username: "",
+      password: "",
+      fullname: "",
+    },
+    validationSchema: RegisterSchema,
+    onSubmit: async (values) => {
+      await register(values);
+    },
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (
-      formData.username.trim() === "" ||
-      formData.password.trim() === "" ||
-      formData.fullname.trim() === ""
-    ) {
-      toast.error("Please fill all the fields!");
-      return;
-    }
-    await register(formData);
-  };
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   useEffect(() => {
     if (data) {
@@ -58,44 +52,81 @@ const Register = () => {
               <p className="text-[#7B7B7B]">Please Sign In to your account</p>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-10 m-3">
-                <Input
-                  startContent={<UserIcon />}
-                  isClearable={true}
-                  name="username"
-                  value={formData.username}
-                  type="text"
-                  onChange={handleChange}
-                  placeholder="Enter Your Name"
-                />
-                <Input
-                  startContent={<EmailIcon />}
-                  isClearable={true}
-                  name="fullname"
-                  onChange={handleChange}
-                  value={formData.fullname}
-                  placeholder="Enter Your Fullname"
-                />
-
-                <Input
-                  startContent={<PasswordIcon />}
-                  name="password"
-                  value={formData.password}
-                  placeholder="Enter Your password"
-                  type={isVisible ? "text" : "password"}
-                  onChange={handleChange}
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={toggleVisibility}
-                      aria-label="toggle password visibility"
-                    >
-                      {isVisible ? <IconEye /> : <IconEyeInvisible />}
-                    </button>
-                  }
-                />
+            <form onSubmit={formik.handleSubmit}>
+              <div className="flex flex-col gap-7 m-3">
+                <div>
+                  <Input
+                    color={
+                      formik.errors.username &&
+                      formik.touched.username &&
+                      formik.errors.username
+                        ? "danger"
+                        : "default"
+                    }
+                    startContent={<UserIcon />}
+                    isClearable
+                    type="text"
+                    placeholder="Enter Your Name"
+                    {...formik.getFieldProps("username")}
+                    onClear={() => formik.setFieldValue("username", "")}
+                  />
+                  <p className="text-[red]">
+                    {formik.errors.username &&
+                      formik.touched.username &&
+                      formik.errors.username}
+                  </p>
+                </div>
+                <div>
+                  <Input
+                    color={
+                      formik.errors.fullname &&
+                      formik.touched.fullname &&
+                      formik.errors.fullname
+                        ? "danger"
+                        : "default"
+                    }
+                    startContent={<EmailIcon />}
+                    isClearable
+                    placeholder="Enter Your Fullname"
+                    {...formik.getFieldProps("fullname")}
+                    onClear={() => formik.setFieldValue("fullname", "")}
+                  />
+                  <p className="text-[red]">
+                    {formik.errors.fullname &&
+                      formik.touched.fullname &&
+                      formik.errors.fullname}
+                  </p>
+                </div>
+                <div>
+                  <Input
+                    color={
+                      formik.errors.password &&
+                      formik.touched.password &&
+                      formik.errors.password
+                        ? "danger"
+                        : "default"
+                    }
+                    startContent={<PasswordIcon />}
+                    placeholder="Enter Your password"
+                    type={isVisible ? "text" : "password"}
+                    {...formik.getFieldProps("password")}
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={toggleVisibility}
+                        aria-label="toggle password visibility"
+                      >
+                        {isVisible ? <IconEye /> : <IconEyeInvisible />}
+                      </button>
+                    }
+                  />
+                  <p className="text-[red]">
+                    {formik.errors.password &&
+                      formik.touched.password &&
+                      formik.errors.password}
+                  </p>
+                </div>
                 <Button
                   className="text-white"
                   color="primary"

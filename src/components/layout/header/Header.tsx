@@ -27,8 +27,8 @@ import useSWR, { mutate } from "swr";
 import { Button } from "@heroui/button";
 import { SunIcon } from "@/shared/assets/icons/sunIcon";
 import { MoonIcon } from "@/shared/assets/icons/moonIcon";
-import { useTheme } from "@/providers/theme/ThemeProvider";
 import { profileFetcher } from "@/providers/swr/profileFetcher";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 const menuItems = [
   {
