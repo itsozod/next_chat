@@ -10,8 +10,8 @@ import { IconEyeInvisible } from "../../shared/assets/icons/EyeSlash";
 import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
 import { useFormik } from "formik";
-import { LoginSchema } from "@/pages/login/loginSchema";
-const Login = () => {
+import { SignInSchema } from "@/pages/signIn/signInSchema";
+const SignIn = () => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
   const {
@@ -26,7 +26,7 @@ const Login = () => {
       username: "",
       password: "",
     },
-    validationSchema: LoginSchema,
+    validationSchema: SignInSchema,
     onSubmit: async (values) => {
       await login(values);
     },
@@ -129,4 +129,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

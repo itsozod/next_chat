@@ -11,9 +11,9 @@ import { Button } from "@heroui/button";
 import { signUp } from "@/shared/api/auth/signup/signup";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
-import { RegisterSchema } from "@/pages/register/registerSchema";
+import { SignUpSchema } from "@/pages/signUp/signUpSchema";
 
-const Register = () => {
+const SignUp = () => {
   const [isVisible, setIsVisible] = useState(false);
   const {
     data,
@@ -28,7 +28,7 @@ const Register = () => {
       password: "",
       fullname: "",
     },
-    validationSchema: RegisterSchema,
+    validationSchema: SignUpSchema,
     onSubmit: async (values) => {
       await register(values);
     },
@@ -151,4 +151,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignUp;

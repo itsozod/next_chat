@@ -3,9 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import Home from "@/pages/home/Home";
 import Contacts from "@/pages/contacts/Contacts";
 import Profile from "@/pages/profile/Profile";
-import Login from "@/pages/login/Login";
-import Register from "@/pages/register/Register";
-import ProtectedRoutes from "@/components/protectedRoute/ProtectedRoutes";
+import ProtectedRoutes from "@/components/protectedLayout/ProtectedLayout";
+import SignIn from "@/pages/signIn/SignIn";
+import SignUp from "@/pages/signUp/SignUp";
 
 function App() {
   return (
@@ -20,8 +20,8 @@ function App() {
         <Route path="/profile" element={<ProtectedRoutes />}>
           <Route index element={<Profile />} />
         </Route>
-        <Route path="/signin" index element={<Login />} />
-        <Route path="/signup" element={<Register />} />
+        <Route path="/signin" index element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );
