@@ -25,7 +25,7 @@ const Rooms = ({
           }}
           className={`
       w-full h-full p-3 flex ${isMediumDevice ? "flex-col justify-start items-center" : "flex-row items-center gap-3"}
-      hover:bg-[#231942] hover:text-white ${Number(search.get("room_id")) === room.id ? "bg-primary text-white" : ""}`}
+      hover:bg-primary hover:text-white ${Number(search.get("room_id")) === room.id ? "bg-primary text-white" : ""}`}
         >
           {room?.is_group ? (
             <div>

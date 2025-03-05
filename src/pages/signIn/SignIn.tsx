@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PasswordIcon from "../../shared/assets/icons/PasswordIcon";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import UserIcon from "../../shared/assets/icons/UserIcon";
 import useSWRMutation from "swr/mutation";
 import { IconEye } from "../../shared/assets/icons/Eye";
@@ -110,6 +110,7 @@ const SignIn = () => {
                   className="text-white"
                   variant="shadow"
                   isLoading={isMutating}
+                  onTouchEnd={(e) => formik.handleSubmit(e as any)}
                   type="submit"
                 >
                   Login

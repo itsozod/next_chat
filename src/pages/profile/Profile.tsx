@@ -55,7 +55,7 @@ const Profile = () => {
         <div className="flex justify-between items-center">
           {avatar ? (
             <img
-              className="w-[50px] h-full rounded-[50%]"
+              className="w-[50px] h-[50px] rounded-[50%]"
               width={50}
               height={50}
               src={avatar}

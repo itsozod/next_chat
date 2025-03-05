@@ -1,7 +1,7 @@
-import ChatContainer from "@/components/chatContainer/ChatContainer";
+import ChatContainer from "@/components/ChatContainer/ChatContainer";
 import MessageInput from "@/components/messageInput/MessageInput";
 import Messages from "@/components/messages/Messages";
-import NoChatSelected from "@/components/noChatSelected/NoChatSelected";
+import NoChatSelected from "@/components/NoChatSelected/NoChatSelected";
 import TopLoader from "@/pages/home/ui/TopLoader";
 import useMessages from "@/shared/hooks/useMessages";
 import useScrollBottom from "@/shared/hooks/useScrollBottom";
@@ -20,7 +20,7 @@ const ChatMessages = () => {
   if (!search.get("room_id")) return <NoChatSelected />;
 
   return (
-    <div className="w-full flex justify-between h-[100dvh] flex-col items-center bg-[#EDF2F7] dark:bg-black ">
+    <div className="w-full flex justify-center flex-col items-center bg-[#EDF2F7] dark:bg-black">
       <ChatContainer>
         <TopLoader isValidating={isValidating} />
         <Messages id={data?.data?.id} />

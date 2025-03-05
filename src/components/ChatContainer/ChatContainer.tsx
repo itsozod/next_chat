@@ -37,7 +37,7 @@ const ChatContainer = ({ children }: { children: ReactNode }) => {
     <div
       onScroll={handleScroll}
       ref={containerRef}
-      className="no-scrollbar flex flex-col border h-full border-primary overflow-auto w-[100%] max-w-[400px] gap-2 p-1 sm:max-w-[600px]"
+      className="no-scrollbar w-full h-[100vh] flex flex-col gap-3 overflow-y-auto p-4 max-w-[1024px]"
     >
       {children}
     </div>

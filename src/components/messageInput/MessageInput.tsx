@@ -2,7 +2,7 @@ import SendIcon from "@/shared/assets/icons/SendIcon";
 import { useSocketStore } from "@/shared/store/socket.store";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, TouchEvent, useRef, useState } from "react";
 import useSWR from "swr";
 import useMessages from "@/shared/hooks/useMessages";
 import toast from "react-hot-toast";
@@ -17,7 +17,9 @@ const MessageInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { scrollToBottom } = useScrollBottom();
 
-  const handleMessage = async (e: FormEvent<HTMLFormElement>) => {
+  const handleMessage = async (
+    e: FormEvent<HTMLFormElement> | TouchEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
     if (socket && socket.readyState === WebSocket.OPEN) {
       sendMessage(
@@ -27,8 +29,10 @@ const MessageInput = () => {
         data?.data?.id,
         data?.data?.fullname
       );
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
       setMessage("");
-      inputRef.current?.focus();
       scrollToBottom();
     } else {
       console.error("WebSocket is not open.");
@@ -43,9 +47,6 @@ const MessageInput = () => {
           <Input
             ref={inputRef}
             placeholder="Send a message"
-            classNames={{
-              inputWrapper: ["bg-[#292929]"],
-            }}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
@@ -56,6 +57,7 @@ const MessageInput = () => {
             className="rounded-full p-2"
             isIconOnly
             type="submit"
+            onTouchEnd={handleMessage}
           >
             <SendIcon />
           </Button>

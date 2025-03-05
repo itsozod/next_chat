@@ -13,7 +13,7 @@ const Messages = ({ id }: { id: number }) => {
         return (
           <div
             key={mess?.id}
-            className={`flex gap-3 justify-center ${mess?.sender_id === id ? "bg-primary" : "bg-[#404048]"} ${mess?.sender_id === id ? "ml-auto" : "mr-auto"} p-4 rounded-md text-white`}
+            className={`flex gap-3 ${mess?.sender_id === id ? "bg-primary" : "bg-[#404048]"} ${mess?.sender_id === id ? "self-end" : "self-start"} p-4 rounded-md text-white`}
           >
             <p className="flex justify-center items-center rounded-[50%] bg-white text-black w-[20px] h-[20px]">
               {mess?.sender_name?.[0]?.toUpperCase()}
