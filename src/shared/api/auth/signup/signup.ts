@@ -1,4 +1,4 @@
-import { authFetcher } from "@/providers/swr/authFetcher";
+import { authFetcher } from "@/app/providers/swr/authFetcher";
 
 export const signUp = async (url: string, { arg = {} }) => {
   const res = await authFetcher(url, {

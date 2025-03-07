@@ -7,7 +7,7 @@ import UserIcon from "../../shared/assets/icons/UserIcon";
 import useSWRMutation from "swr/mutation";
 import { IconEye } from "../../shared/assets/icons/Eye";
 import { IconEyeInvisible } from "../../shared/assets/icons/EyeSlash";
-import { tokenInstance } from "@/utils/helpers/token/tokenInstance";
+import { tokenInstance } from "@/shared/utils/token/tokenInstance";
 import { signIn } from "@/shared/api/auth/signin/signin";
 import { useFormik } from "formik";
 import { SignInSchema } from "@/pages/signIn/signInSchema";

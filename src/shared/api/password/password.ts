@@ -1,5 +1,5 @@
-import { fetcher } from "@/providers/swr/fetcher";
-import { profileFetcher } from "@/providers/swr/profileFetcher";
+import { fetcher } from "@/app/providers/swr/fetcher";
+import { profileFetcher } from "@/app/providers/swr/profileFetcher";
 
 export const changePassword = async (url: string, { arg = {} }) => {
   const res = await fetcher(url, {

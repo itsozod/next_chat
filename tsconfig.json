@@ -7,9 +7,9 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
-      "@providers/*": ["./src/providers/*"]
     },
 
     /* Bundler mode */

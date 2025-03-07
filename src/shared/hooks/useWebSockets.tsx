@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSocketStore } from "../store/socket.store";
 import { useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
 import * as I from "@/shared/types";
 import useSWR from "swr";
 import useMessages from "./useMessages";
@@ -23,7 +22,6 @@ const useWebSockets = () => {
 
     socket.onopen = () => {
       console.log("Connected!!!");
-      toast.success("Connected");
     };
 
     socket.onmessage = (event) => {

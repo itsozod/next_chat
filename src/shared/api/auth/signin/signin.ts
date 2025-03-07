@@ -1,4 +1,4 @@
-import { authFetcher } from "@/providers/swr/authFetcher";
+import { authFetcher } from "@/app/providers/swr/authFetcher";
 import * as I from "@/shared/types";
 
 export const signIn = async (

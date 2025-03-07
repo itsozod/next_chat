@@ -1,4 +1,4 @@
-import { fetcher } from "@/providers/swr/fetcher";
+import { fetcher } from "@/app/providers/swr/fetcher";
 
 export const addContact = async (url: string, { arg = {} }) => {
   const res = await fetcher(url, {

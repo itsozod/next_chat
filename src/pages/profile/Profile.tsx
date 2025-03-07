@@ -8,7 +8,7 @@ import { ChangeEvent, useState } from "react";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { changePassword, handleUpload } from "@/shared/api/password/password";
-import { profileFetcher } from "@/providers/swr/profileFetcher";
+import { profileFetcher } from "@/app/providers/swr/profileFetcher";
 
 const Profile = () => {
   const { data: avatar, mutate } = useSWR("/user/get-avatar", profileFetcher);
