@@ -1,4 +1,5 @@
 import { tokenInstance } from "@/shared/utils/token/tokenInstance";
+import toast from "react-hot-toast";
 
 export const authFetcher = async (url: string, options: RequestInit = {}) => {
   const { getToken } = tokenInstance;
@@ -11,8 +12,10 @@ export const authFetcher = async (url: string, options: RequestInit = {}) => {
   });
 
   if (!response.ok) {
-    const errorResp = await response.json();
-    throw new Error(`${errorResp.error || response.statusText}`);
+    toast.error(`${response.statusText}`, {
+      position: "top-right",
+      duration: 3000,
+    });
   }
   return await response.json();
 };
