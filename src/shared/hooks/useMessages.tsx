@@ -1,10 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useSWRInfinite from "swr/infinite";
-import { RoomMessagesData } from "../types";
+import { RoomMessagesData } from "../../entities";
 const useMessages = () => {
   const navigate = useNavigate();
   const [search] = useSearchParams();
   const getKey = (pageIndex: number, previousPageData: RoomMessagesData) => {
+    const roomId = search.get("room_id");
+    if (!roomId) return null;
     pageIndex = pageIndex + 1;
 
     if (
@@ -13,9 +15,7 @@ const useMessages = () => {
         previousPageData?.data?.total_count
     )
       return null;
-    return search.get("room_id")
-      ? `/room/messages?room_id=${search.get("room_id")}&page=${pageIndex}`
-      : null;
+    return `/room/messages?room_id=${search.get("room_id")}&page=${pageIndex}`;
   };
 
   const {
@@ -40,7 +40,7 @@ const useMessages = () => {
     setSize(1);
     setTimeout(() => {
       mutate();
-    }, 1000);
+    }, 500);
   };
 
   return {

@@ -1,6 +1,6 @@
 import UserIcon from "@/shared/assets/icons/UserIcon";
 import { GroupIcon } from "@/shared/assets/icons/group";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import { Avatar } from "@heroui/avatar";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { useSearchParams } from "react-router-dom";

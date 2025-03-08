@@ -1,5 +1,5 @@
 import { AddContact } from "@/shared/assets/icons/addContact";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import { Avatar } from "@heroui/avatar";
 import { Button } from "@heroui/button";
 const UserData = ({

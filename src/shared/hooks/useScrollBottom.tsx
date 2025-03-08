@@ -1,4 +1,4 @@
-import { useSocketStore } from "@/shared/store/socket.store";
+import { useSocketStore } from "@/entities/socket/model/socket.store";
 import { useEffect, useRef } from "react";
 
 const useScrollBottom = () => {

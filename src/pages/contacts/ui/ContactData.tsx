@@ -1,6 +1,6 @@
 import { DeleteUserIcon } from "@/shared/assets/icons/deleteUserIcon";
 import UserIcon from "@/shared/assets/icons/UserIcon";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import { Button } from "@heroui/button";
 const ContactData = ({
   contact,

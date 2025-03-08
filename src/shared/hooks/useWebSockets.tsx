@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useSocketStore } from "../store/socket.store";
+import { useSocketStore } from "../../entities/socket/model/socket.store";
 import { useSearchParams } from "react-router-dom";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import useSWR from "swr";
 import useMessages from "./useMessages";
 import useScrollBottom from "@/shared/hooks/useScrollBottom";

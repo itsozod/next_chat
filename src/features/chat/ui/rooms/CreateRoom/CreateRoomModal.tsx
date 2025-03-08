@@ -18,7 +18,7 @@ import { GroupIcon } from "@/shared/assets/icons/group";
 import useSWRMutation from "swr/mutation";
 import { createRoom } from "@/shared/api/room/createRoom";
 import toast from "react-hot-toast";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 
 const CreateRoomModal = () => {
   const { mutate } = useSWRConfig();

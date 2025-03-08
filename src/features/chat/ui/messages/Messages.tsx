@@ -1,6 +1,6 @@
 import useMessages from "@/shared/hooks/useMessages";
 import { useMemo } from "react";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import { GlowingStar } from "@/shared/assets/icons/starIcon";
 
 const Messages = ({ id }: { id: number }) => {

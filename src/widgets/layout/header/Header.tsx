@@ -3,7 +3,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/navbar";
 import {
@@ -65,100 +64,105 @@ const Header = () => {
   const clearCache = () => mutate(() => true, undefined, { revalidate: false });
 
   return (
-    <Navbar
-      className="w-full dark:bg-[#231942] shadow-lg"
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={(state) => setIsMenuOpen(state)}
-    >
-      <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          onChange={(e) => setIsMenuOpen(e)}
-          className="sm:hidden"
-        />
-        <NavbarBrand>
-          <p className="fancy-text font-bold text-color text-2xl">next chat</p>
-        </NavbarBrand>
-      </NavbarContent>
+    <>
+      <Navbar
+        className="w-full dark:bg-[#231942] shadow-lg"
+        isMenuOpen={isMenuOpen}
+        onMenuOpenChange={(state) => setIsMenuOpen(state)}
+      >
+        <NavbarContent>
+          <NavbarMenuToggle
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            onChange={(e) => setIsMenuOpen(e)}
+            className="sm:hidden"
+          />
+          <NavbarBrand>
+            <p className="fancy-text font-bold text-color text-2xl">
+              next chat
+            </p>
+          </NavbarBrand>
+        </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {menuItems?.map((item) => (
-          <NavbarItem>
-            <Link
-              className={`${item.path === location.pathname ? "text-primary" : "text-color"}`}
-              to={item.path}
-            >
-              {item.title}
-            </Link>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            {avatar ? (
-              <Button size="sm" className="bg-transparent rounded-md">
-                <img
-                  width={50}
-                  height={50}
-                  src={avatar}
-                  className="w-[30px] h-full rounded-[50%]"
-                  alt=""
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          {menuItems?.map((item) => (
+            <NavbarItem>
+              <Link
+                className={`${item.path === location.pathname ? "text-primary" : "text-color"}`}
+                to={item.path}
+              >
+                {item.title}
+              </Link>
+            </NavbarItem>
+          ))}
+        </NavbarContent>
+        <NavbarContent justify="end">
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              {avatar ? (
+                <Button size="sm" className="bg-transparent rounded-md">
+                  <img
+                    width={50}
+                    height={50}
+                    src={avatar}
+                    className="w-[30px] h-full rounded-[50%]"
+                    alt=""
+                  />
+                </Button>
+              ) : (
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  color="secondary"
+                  size="sm"
                 />
-              </Button>
-            ) : (
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="secondary"
-                size="sm"
-              />
-            )}
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-10 gap-2">
-              <p className="font-semibold">
-                Signed in as {data?.data?.username}
-              </p>
-            </DropdownItem>
-            <DropdownItem
-              key="profile"
-              className="h-10 gap-2"
-              onPress={() => navigate("/profile")}
-            >
-              <p className="font-semibold">Profile</p>
-            </DropdownItem>
-            <DropdownItem
-              onPress={() => {
-                tokenInstance.clearToken();
-                navigate("/signin");
-                clearCache();
-              }}
-              key="logout"
-              color="danger"
-              className="h-10"
-            >
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <Switch
-          defaultSelected
-          isSelected={theme === "light"}
-          color="secondary"
-          size="lg"
-          onValueChange={(e) => (e ? setTheme("light") : setTheme("dark"))}
-          thumbIcon={({ isSelected, className }) =>
-            isSelected ? (
-              <SunIcon className={className} />
-            ) : (
-              <MoonIcon className={className} />
-            )
-          }
-        ></Switch>
-      </NavbarContent>
+              )}
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="profile" className="h-10 gap-2">
+                <p className="font-semibold">
+                  Signed in as {data?.data?.username}
+                </p>
+              </DropdownItem>
+              <DropdownItem
+                key="profile"
+                className="h-10 gap-2"
+                onPress={() => navigate("/profile")}
+              >
+                <p className="font-semibold">Profile</p>
+              </DropdownItem>
+              <DropdownItem
+                onPress={() => {
+                  tokenInstance.clearToken();
+                  navigate("/signin");
+                  clearCache();
+                }}
+                key="logout"
+                color="danger"
+                className="h-10"
+              >
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Switch
+            defaultSelected
+            isSelected={theme === "light"}
+            color="secondary"
+            size="lg"
+            onValueChange={(e) => (e ? setTheme("light") : setTheme("dark"))}
+            thumbIcon={({ isSelected, className }) =>
+              isSelected ? (
+                <SunIcon className={className} />
+              ) : (
+                <MoonIcon className={className} />
+              )
+            }
+          ></Switch>
+        </NavbarContent>
+      </Navbar>
       <Drawer
+        shouldBlockScroll={false}
         backdrop={"blur"}
         isOpen={isMenuOpen}
         onOpenChange={setIsMenuOpen}
@@ -171,23 +175,19 @@ const Header = () => {
           </DrawerHeader>
           <DrawerBody>
             {mobileMenuItems.map((item) => (
-              <NavbarMenuItem
+              <Link
                 key={item.path}
+                className={`w-full list-none ${item.path === location.pathname ? "text-primary" : "text-color"}`}
+                to={item.path}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="list-none"
               >
-                <Link
-                  className={`w-full list-none ${item.path === location.pathname ? "text-primary" : "text-color"}`}
-                  to={item.path}
-                >
-                  {item.title}
-                </Link>
-              </NavbarMenuItem>
+                {item.title}
+              </Link>
             ))}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </Navbar>
+    </>
   );
 };
 

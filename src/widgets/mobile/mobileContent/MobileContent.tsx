@@ -5,7 +5,7 @@ import Loader from "@/shared/ui/loader/Loader";
 import { Avatar } from "@heroui/avatar";
 import { useSearchParams } from "react-router-dom";
 import useSWR from "swr";
-import * as I from "@/shared/types";
+import * as I from "@/entities";
 import MobileRooms from "../mobileRooms/MobileRooms";
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ const MobileContent = () => {
     );
 
   return (
-    <>
+    <div className="w-full">
       <div className="w-full flex flex-col items-center justify-center gap-3">
         {!rooms?.data?.length && <div>You got no rooms yet!</div>}
         {rooms?.data?.map((room) => (
@@ -55,9 +55,8 @@ const MobileContent = () => {
           </button>
         ))}
       </div>
-
       <MobileRooms isOpen={isOpen} setIsOpen={setIsOpen} />
-    </>
+    </div>
   );
 };
 

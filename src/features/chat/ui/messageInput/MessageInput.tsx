@@ -1,5 +1,5 @@
 import SendIcon from "@/shared/assets/icons/SendIcon";
-import { useSocketStore } from "@/shared/store/socket.store";
+import { useSocketStore } from "@/entities/socket/model/socket.store";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { FormEvent, TouchEvent, useRef, useState } from "react";
