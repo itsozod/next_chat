@@ -9,6 +9,7 @@ import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { changePassword, handleUpload } from "@/shared/api/password/password";
 import { profileFetcher } from "@/app/providers/swr/profileFetcher";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const { data: avatar, mutate } = useSWR("/user/get-avatar", profileFetcher);
@@ -39,6 +40,13 @@ const Profile = () => {
   const handleChangeImg = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const file = e.target.files && e.target.files[0];
+      if (file && file.size > 2 * 1024 * 1024) {
+        toast.error("File size must be less than 2MB.", {
+          position: "top-right",
+          duration: 3000,
+        });
+        return;
+      }
       const formData = new FormData();
       formData.append("avatar", file as File);
       await uploadAvatar(formData);

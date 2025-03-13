@@ -1,4 +1,5 @@
 import { refreshToken } from "@/app/providers/swr/fetcher";
+import { fetcherErrorHandler } from "@/shared/helpers/errorHandler";
 import { tokenInstance } from "@/shared/utils/token/tokenInstance";
 import toast from "react-hot-toast";
 
@@ -28,10 +29,7 @@ export const profileFetcher = async (
   }
 
   if (!response.ok) {
-    toast.error(`${response.statusText}`, {
-      position: "top-right",
-      duration: 3000,
-    });
+    fetcherErrorHandler(response);
   } else if (response.ok && method !== "GET") {
     toast.success("Operation successful", {
       position: "top-right",

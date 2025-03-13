@@ -48,8 +48,9 @@ const MobileRooms = ({
           <>
             <DrawerHeader className="m-0 p-0">
               <Button
+                size="lg"
                 isIconOnly
-                className="h-auto rounded-none"
+                className="h-[56px] rounded-none"
                 onPress={() => {
                   onClose();
                 }}
